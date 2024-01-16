@@ -11,14 +11,14 @@ class PublishCommand extends Command
      *
      * @var string
      */
-    protected $signature = 'sail:publish';
+    protected $signature = 'peach:publish';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'Publish the Laravel Sail Docker files';
+    protected $description = 'Publish the YSOCode Peach Docker files';
 
     /**
      * Execute the console command.
@@ -27,19 +27,19 @@ class PublishCommand extends Command
      */
     public function handle()
     {
-        $this->call('vendor:publish', ['--tag' => 'sail-docker']);
-        $this->call('vendor:publish', ['--tag' => 'sail-database']);
+        $this->call('vendor:publish', ['--tag' => 'peach-docker']);
+        $this->call('vendor:publish', ['--tag' => 'peach-database']);
 
         file_put_contents(
             $this->laravel->basePath('docker-compose.yml'),
             str_replace(
                 [
-                    './vendor/laravel/sail/runtimes/8.3',
-                    './vendor/laravel/sail/runtimes/8.2',
-                    './vendor/laravel/sail/runtimes/8.1',
-                    './vendor/laravel/sail/runtimes/8.0',
-                    './vendor/laravel/sail/database/mysql',
-                    './vendor/laravel/sail/database/pgsql'
+                    './vendor/ysocode/peach/runtimes/8.3',
+                    './vendor/ysocode/peach/runtimes/8.2',
+                    './vendor/ysocode/peach/runtimes/8.1',
+                    './vendor/ysocode/peach/runtimes/8.0',
+                    './vendor/ysocode/peach/database/mysql',
+                    './vendor/ysocode/peach/database/pgsql'
                 ],
                 [
                     './docker/8.3',

@@ -1,6 +1,6 @@
 <?php
 
-namespace Laravel\Sail;
+namespace YSOCode\Peach;
 
 use Illuminate\Contracts\Support\DeferrableProvider;
 use Illuminate\Support\ServiceProvider;
@@ -8,7 +8,7 @@ use YSOCode\Peach\Console\AddCommand;
 use YSOCode\Peach\Console\InstallCommand;
 use YSOCode\Peach\Console\PublishCommand;
 
-class SailServiceProvider extends ServiceProvider implements DeferrableProvider
+class PeachServiceProvider extends ServiceProvider implements DeferrableProvider
 {
     /**
      * Bootstrap any application services.
@@ -47,15 +47,15 @@ class SailServiceProvider extends ServiceProvider implements DeferrableProvider
         if ($this->app->runningInConsole()) {
             $this->publishes([
                 __DIR__ . '/../runtimes' => $this->app->basePath('docker'),
-            ], ['sail', 'sail-docker']);
+            ], ['peach', 'peach-docker']);
 
             $this->publishes([
-                __DIR__ . '/../bin/sail' => $this->app->basePath('sail'),
-            ], ['sail', 'sail-bin']);
+                __DIR__ . '/../bin/peach' => $this->app->basePath('peach'),
+            ], ['peach', 'peach-bin']);
 
             $this->publishes([
                 __DIR__ . '/../database' => $this->app->basePath('docker'),
-            ], ['sail', 'sail-database']);
+            ], ['peach', 'peach-database']);
         }
     }
 

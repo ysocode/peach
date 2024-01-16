@@ -33,7 +33,7 @@ trait InteractsWithDockerComposeServices
     protected $defaultServices = ['mysql', 'redis', 'selenium', 'mailpit'];
 
     /**
-     * Gather the desired Sail services using an interactive prompt.
+     * Gather the desired Peach services using an interactive prompt.
      *
      * @return array
      */
@@ -64,11 +64,11 @@ trait InteractsWithDockerComposeServices
             ? Yaml::parseFile($composePath)
             : Yaml::parse(file_get_contents(__DIR__ . '/../../../stubs/docker-compose.stub'));
 
-        // Adds the new services as dependencies of the laravel.test service...
-        if (! array_key_exists('laravel.test', $compose['services'])) {
-            $this->warn('Couldn\'t find the laravel.test service. Make sure you add ['.implode(',', $services).'] to the depends_on config.');
+        // Adds the new services as dependencies of the ysocode.test service...
+        if (! array_key_exists('ysocode.test', $compose['services'])) {
+            $this->warn('Couldn\'t find the ysocode.test service. Make sure you add ['.implode(',', $services).'] to the depends_on config.');
         } else {
-            $compose['services']['laravel.test']['depends_on'] = collect($compose['services']['laravel.test']['depends_on'] ?? [])
+            $compose['services']['ysocode.test']['depends_on'] = collect($compose['services']['ysocode.test']['depends_on'] ?? [])
                 ->merge($services)
                 ->unique()
                 ->values()
@@ -90,7 +90,7 @@ trait InteractsWithDockerComposeServices
             })->filter(function ($service) use ($compose) {
                 return ! array_key_exists($service, $compose['volumes'] ?? []);
             })->each(function ($service) use (&$compose) {
-                $compose['volumes']["sail-{$service}"] = ['driver' => 'local'];
+                $compose['volumes']["peach-{$service}"] = ['driver' => 'local'];
             });
 
         // If the list of volumes is empty, we can remove it...
@@ -126,7 +126,7 @@ trait InteractsWithDockerComposeServices
             $environment = str_replace('DB_HOST=127.0.0.1', "DB_HOST=mysql", $environment);
         }
 
-        $environment = str_replace('DB_USERNAME=root', "DB_USERNAME=sail", $environment);
+        $environment = str_replace('DB_USERNAME=root', "DB_USERNAME=peach", $environment);
         $environment = preg_replace("/DB_PASSWORD=(.*)/", "DB_PASSWORD=password", $environment);
 
         if (in_array('memcached', $services)) {
@@ -223,20 +223,20 @@ trait InteractsWithDockerComposeServices
 
         if (count($services) > 0) {
             $status = $this->runCommands([
-                './vendor/bin/sail pull '.implode(' ', $services),
+                './vendor/bin/peach pull '.implode(' ', $services),
             ]);
 
             if ($status === 0) {
-                $this->info('Sail images installed successfully.');
+                $this->info('Peach images installed successfully.');
             }
         }
 
         $status = $this->runCommands([
-            './vendor/bin/sail build',
+            './vendor/bin/peach build',
         ]);
 
         if ($status === 0) {
-            $this->info('Sail build successful.');
+            $this->info('Peach build successful.');
         }
     }
 

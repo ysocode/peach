@@ -14,7 +14,7 @@ class AddCommand extends Command
      *
      * @var string
      */
-    protected $signature = 'sail:add
+    protected $signature = 'peach:add
         {services? : The services that should be added}
     ';
 
@@ -23,7 +23,7 @@ class AddCommand extends Command
      *
      * @var string
      */
-    protected $description = 'Add a service to an existing Sail installation';
+    protected $description = 'Add a service to an existing Peach installation';
 
     /**
      * Execute the console command.
@@ -50,7 +50,7 @@ class AddCommand extends Command
         $this->replaceEnvVariables($services);
         $this->configurePhpUnit();
 
-        $this->info('Additional Sail services installed successfully.');
+        $this->info('Additional Peach services installed successfully.');
 
         $this->prepareInstallation($services);
     }

@@ -15,7 +15,7 @@ class InstallCommand extends Command
      *
      * @var string
      */
-    protected $signature = 'sail:install
+    protected $signature = 'peach:install
                 {--with= : The services that should be included in the installation}
                 {--devcontainer : Create a .devcontainer configuration directory}';
 
@@ -24,7 +24,7 @@ class InstallCommand extends Command
      *
      * @var string
      */
-    protected $description = 'Install Laravel Sail\'s default Docker Compose file';
+    protected $description = 'Install YSOCode Peach\'s default Docker Compose file';
 
     /**
      * Execute the console command.
@@ -55,7 +55,7 @@ class InstallCommand extends Command
             $this->installDevContainer();
         }
 
-        $this->info('Sail scaffolding installed successfully.');
+        $this->info('Peach scaffolding installed successfully.');
 
         $this->prepareInstallation($services);
     }
