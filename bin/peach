@@ -10,7 +10,7 @@ case "${UNAMEOUT}" in
 esac
 
 if [ "$MACHINE" == "UNKNOWN" ]; then
-    echo "Unsupported operating system [$(uname -s)]. Laravel Sail supports macOS, Linux, and Windows (WSL2)." >&2
+    echo "Unsupported operating system [$(uname -s)]. Laravel Peach supports macOS, Linux, and Windows (WSL2)." >&2
 
     exit 1
 fi
@@ -30,90 +30,90 @@ fi
 
 # Function that prints the available commands...
 function display_help {
-    echo "Laravel Sail"
+    echo "Laravel Peach"
     echo
     echo "${YELLOW}Usage:${NC}" >&2
-    echo "  sail COMMAND [options] [arguments]"
+    echo "  peach COMMAND [options] [arguments]"
     echo
     echo "Unknown commands are passed to the docker-compose binary."
     echo
     echo "${YELLOW}docker-compose Commands:${NC}"
-    echo "  ${GREEN}sail up${NC}        Start the application"
-    echo "  ${GREEN}sail up -d${NC}     Start the application in the background"
-    echo "  ${GREEN}sail stop${NC}      Stop the application"
-    echo "  ${GREEN}sail restart${NC}   Restart the application"
-    echo "  ${GREEN}sail ps${NC}        Display the status of all containers"
+    echo "  ${GREEN}peach up${NC}        Start the application"
+    echo "  ${GREEN}peach up -d${NC}     Start the application in the background"
+    echo "  ${GREEN}peach stop${NC}      Stop the application"
+    echo "  ${GREEN}peach restart${NC}   Restart the application"
+    echo "  ${GREEN}peach ps${NC}        Display the status of all containers"
     echo
     echo "${YELLOW}Artisan Commands:${NC}"
-    echo "  ${GREEN}sail artisan ...${NC}          Run an Artisan command"
-    echo "  ${GREEN}sail artisan queue:work${NC}"
+    echo "  ${GREEN}peach artisan ...${NC}          Run an Artisan command"
+    echo "  ${GREEN}peach artisan queue:work${NC}"
     echo
     echo "${YELLOW}PHP Commands:${NC}"
-    echo "  ${GREEN}sail php ...${NC}   Run a snippet of PHP code"
-    echo "  ${GREEN}sail php -v${NC}"
+    echo "  ${GREEN}peach php ...${NC}   Run a snippet of PHP code"
+    echo "  ${GREEN}peach php -v${NC}"
     echo
     echo "${YELLOW}Composer Commands:${NC}"
-    echo "  ${GREEN}sail composer ...${NC}                       Run a Composer command"
-    echo "  ${GREEN}sail composer require laravel/sanctum${NC}"
+    echo "  ${GREEN}peach composer ...${NC}                       Run a Composer command"
+    echo "  ${GREEN}peach composer require laravel/sanctum${NC}"
     echo
     echo "${YELLOW}Node Commands:${NC}"
-    echo "  ${GREEN}sail node ...${NC}         Run a Node command"
-    echo "  ${GREEN}sail node --version${NC}"
+    echo "  ${GREEN}peach node ...${NC}         Run a Node command"
+    echo "  ${GREEN}peach node --version${NC}"
     echo
     echo "${YELLOW}NPM Commands:${NC}"
-    echo "  ${GREEN}sail npm ...${NC}        Run a npm command"
-    echo "  ${GREEN}sail npx${NC}            Run a npx command"
-    echo "  ${GREEN}sail npm run prod${NC}"
+    echo "  ${GREEN}peach npm ...${NC}        Run a npm command"
+    echo "  ${GREEN}peach npx${NC}            Run a npx command"
+    echo "  ${GREEN}peach npm run prod${NC}"
     echo
     echo "${YELLOW}PNPM Commands:${NC}"
-    echo "  ${GREEN}sail pnpm ...${NC}        Run a pnpm command"
-    echo "  ${GREEN}sail pnpx${NC}            Run a pnpx command"
-    echo "  ${GREEN}sail pnpm run prod${NC}"
+    echo "  ${GREEN}peach pnpm ...${NC}        Run a pnpm command"
+    echo "  ${GREEN}peach pnpx${NC}            Run a pnpx command"
+    echo "  ${GREEN}peach pnpm run prod${NC}"
     echo
     echo "${YELLOW}Yarn Commands:${NC}"
-    echo "  ${GREEN}sail yarn ...${NC}        Run a Yarn command"
-    echo "  ${GREEN}sail yarn run prod${NC}"
+    echo "  ${GREEN}peach yarn ...${NC}        Run a Yarn command"
+    echo "  ${GREEN}peach yarn run prod${NC}"
     echo
     echo "${YELLOW}Bun Commands:${NC}"
-    echo "  ${GREEN}sail bun ...${NC}        Run a bun command"
-    echo "  ${GREEN}sail bunx${NC}           Run a bunx command"
-    echo "  ${GREEN}sail bun run prod${NC}"
+    echo "  ${GREEN}peach bun ...${NC}        Run a bun command"
+    echo "  ${GREEN}peach bunx${NC}           Run a bunx command"
+    echo "  ${GREEN}peach bun run prod${NC}"
     echo
     echo "${YELLOW}Database Commands:${NC}"
-    echo "  ${GREEN}sail mysql${NC}     Start a MySQL CLI session within the 'mysql' container"
-    echo "  ${GREEN}sail mariadb${NC}   Start a MySQL CLI session within the 'mariadb' container"
-    echo "  ${GREEN}sail psql${NC}      Start a PostgreSQL CLI session within the 'pgsql' container"
-    echo "  ${GREEN}sail redis${NC}     Start a Redis CLI session within the 'redis' container"
+    echo "  ${GREEN}peach mysql${NC}     Start a MySQL CLI session within the 'mysql' container"
+    echo "  ${GREEN}peach mariadb${NC}   Start a MySQL CLI session within the 'mariadb' container"
+    echo "  ${GREEN}peach psql${NC}      Start a PostgreSQL CLI session within the 'pgsql' container"
+    echo "  ${GREEN}peach redis${NC}     Start a Redis CLI session within the 'redis' container"
     echo
     echo "${YELLOW}Debugging:${NC}"
-    echo "  ${GREEN}sail debug ...${NC}          Run an Artisan command in debug mode"
-    echo "  ${GREEN}sail debug queue:work${NC}"
+    echo "  ${GREEN}peach debug ...${NC}          Run an Artisan command in debug mode"
+    echo "  ${GREEN}peach debug queue:work${NC}"
     echo
     echo "${YELLOW}Running Tests:${NC}"
-    echo "  ${GREEN}sail test${NC}          Run the PHPUnit tests via the Artisan test command"
-    echo "  ${GREEN}sail phpunit ...${NC}   Run PHPUnit"
-    echo "  ${GREEN}sail pest ...${NC}      Run Pest"
-    echo "  ${GREEN}sail pint ...${NC}      Run Pint"
-    echo "  ${GREEN}sail dusk${NC}          Run the Dusk tests (Requires the laravel/dusk package)"
-    echo "  ${GREEN}sail dusk:fails${NC}    Re-run previously failed Dusk tests (Requires the laravel/dusk package)"
+    echo "  ${GREEN}peach test${NC}          Run the PHPUnit tests via the Artisan test command"
+    echo "  ${GREEN}peach phpunit ...${NC}   Run PHPUnit"
+    echo "  ${GREEN}peach pest ...${NC}      Run Pest"
+    echo "  ${GREEN}peach pint ...${NC}      Run Pint"
+    echo "  ${GREEN}peach dusk${NC}          Run the Dusk tests (Requires the laravel/dusk package)"
+    echo "  ${GREEN}peach dusk:fails${NC}    Re-run previously failed Dusk tests (Requires the laravel/dusk package)"
     echo
     echo "${YELLOW}Container CLI:${NC}"
-    echo "  ${GREEN}sail shell${NC}        Start a shell session within the application container"
-    echo "  ${GREEN}sail bash${NC}         Alias for 'sail shell'"
-    echo "  ${GREEN}sail root-shell${NC}   Start a root shell session within the application container"
-    echo "  ${GREEN}sail root-bash${NC}    Alias for 'sail root-shell'"
-    echo "  ${GREEN}sail tinker${NC}       Start a new Laravel Tinker session"
+    echo "  ${GREEN}peach shell${NC}        Start a shell session within the application container"
+    echo "  ${GREEN}peach bash${NC}         Alias for 'peach shell'"
+    echo "  ${GREEN}peach root-shell${NC}   Start a root shell session within the application container"
+    echo "  ${GREEN}peach root-bash${NC}    Alias for 'peach root-shell'"
+    echo "  ${GREEN}peach tinker${NC}       Start a new Laravel Tinker session"
     echo
     echo "${YELLOW}Sharing:${NC}"
-    echo "  ${GREEN}sail share${NC}   Share the application publicly via a temporary URL"
-    echo "  ${GREEN}sail open${NC}    Open the site in your browser"
+    echo "  ${GREEN}peach share${NC}   Share the application publicly via a temporary URL"
+    echo "  ${GREEN}peach open${NC}    Open the site in your browser"
     echo
     echo "${YELLOW}Binaries:${NC}"
-    echo "  ${GREEN}sail bin ...${NC}   Run Composer binary scripts from the vendor/bin directory"
+    echo "  ${GREEN}peach bin ...${NC}   Run Composer binary scripts from the vendor/bin directory"
     echo
     echo "${YELLOW}Customization:${NC}"
-    echo "  ${GREEN}sail artisan sail:publish${NC}   Publish the Sail configuration files"
-    echo "  ${GREEN}sail build --no-cache${NC}       Rebuild all of the Sail containers"
+    echo "  ${GREEN}peach artisan peach:publish${NC}   Publish the Peach configuration files"
+    echo "  ${GREEN}peach build --no-cache${NC}       Rebuild all of the Peach containers"
 
     exit 1
 }
@@ -141,19 +141,19 @@ export DB_PORT=${DB_PORT:-3306}
 export WWWUSER=${WWWUSER:-$UID}
 export WWWGROUP=${WWWGROUP:-$(id -g)}
 
-export SAIL_FILES=${SAIL_FILES:-""}
-export SAIL_SHARE_DASHBOARD=${SAIL_SHARE_DASHBOARD:-4040}
-export SAIL_SHARE_SERVER_HOST=${SAIL_SHARE_SERVER_HOST:-"laravel-sail.site"}
-export SAIL_SHARE_SERVER_PORT=${SAIL_SHARE_SERVER_PORT:-8080}
-export SAIL_SHARE_SUBDOMAIN=${SAIL_SHARE_SUBDOMAIN:-""}
-export SAIL_SHARE_DOMAIN=${SAIL_SHARE_DOMAIN:-"$SAIL_SHARE_SERVER_HOST"}
-export SAIL_SHARE_SERVER=${SAIL_SHARE_SERVER:-""}
+export PEACH_FILES=${PEACH_FILES:-""}
+export PEACH_SHARE_DASHBOARD=${PEACH_SHARE_DASHBOARD:-4040}
+export PEACH_SHARE_SERVER_HOST=${PEACH_SHARE_SERVER_HOST:-"laravel-peach.site"}
+export PEACH_SHARE_SERVER_PORT=${PEACH_SHARE_SERVER_PORT:-8080}
+export PEACH_SHARE_SUBDOMAIN=${PEACH_SHARE_SUBDOMAIN:-""}
+export PEACH_SHARE_DOMAIN=${PEACH_SHARE_DOMAIN:-"$PEACH_SHARE_SERVER_HOST"}
+export PEACH_SHARE_SERVER=${PEACH_SHARE_SERVER:-""}
 
-# Function that outputs Sail is not running...
-function sail_is_not_running {
-    echo "${BOLD}Sail is not running.${NC}" >&2
+# Function that outputs Peach is not running...
+function peach_is_not_running {
+    echo "${BOLD}Peach is not running.${NC}" >&2
     echo "" >&2
-    echo "${BOLD}You may Sail using the following commands:${NC} './vendor/bin/sail up' or './vendor/bin/sail up -d'" >&2
+    echo "${BOLD}You may Peach using the following commands:${NC} './vendor/bin/peach up' or './vendor/bin/peach up -d'" >&2
 
     exit 1
 }
@@ -166,11 +166,11 @@ else
     DOCKER_COMPOSE=(docker-compose)
 fi
 
-if [ -n "$SAIL_FILES" ]; then
-    # Convert SAIL_FILES to an array...
-    IFS=':' read -ra SAIL_FILES <<< "$SAIL_FILES"
+if [ -n "$PEACH_FILES" ]; then
+    # Convert PEACH_FILES to an array...
+    IFS=':' read -ra PEACH_FILES <<< "$PEACH_FILES"
 
-    for FILE in "${SAIL_FILES[@]}"; do
+    for FILE in "${PEACH_FILES[@]}"; do
         if [ -f "$FILE" ]; then
             DOCKER_COMPOSE+=(-f "$FILE")
         else
@@ -183,7 +183,7 @@ fi
 
 EXEC="yes"
 
-if [ -z "$SAIL_SKIP_CHECKS" ]; then
+if [ -z "$PEACH_SKIP_CHECKS" ]; then
     # Ensure that Docker is running...
     if ! docker info > /dev/null 2>&1; then
         echo "${BOLD}Docker is not running.${NC}" >&2
@@ -191,9 +191,9 @@ if [ -z "$SAIL_SKIP_CHECKS" ]; then
         exit 1
     fi
 
-    # Determine if Sail is currently up...
+    # Determine if Peach is currently up...
     if "${DOCKER_COMPOSE[@]}" ps "$APP_SERVICE" 2>&1 | grep 'Exit\|exited'; then
-        echo "${BOLD}Shutting down old Sail processes...${NC}" >&2
+        echo "${BOLD}Shutting down old Peach processes...${NC}" >&2
 
         "${DOCKER_COMPOSE[@]}" down > /dev/null 2>&1
 
@@ -210,11 +210,11 @@ if [ "$1" == "php" ]; then
     shift 1
 
     if [ "$EXEC" == "yes" ]; then
-        ARGS+=(exec -u sail)
+        ARGS+=(exec -u peach)
         [ ! -t 0 ] && ARGS+=(-T)
         ARGS+=("$APP_SERVICE" "php" "$@")
     else
-        sail_is_not_running
+        peach_is_not_running
     fi
 
 # Proxy vendor binary commands on the application container...
@@ -222,11 +222,11 @@ elif [ "$1" == "bin" ]; then
     shift 1
 
     if [ "$EXEC" == "yes" ]; then
-        ARGS+=(exec -u sail)
+        ARGS+=(exec -u peach)
         [ ! -t 0 ] && ARGS+=(-T)
         ARGS+=("$APP_SERVICE" ./vendor/bin/"$@")
     else
-        sail_is_not_running
+        peach_is_not_running
     fi
 
 # Proxy docker-compose commands to the docker-compose binary on the application container...
@@ -234,11 +234,11 @@ elif [ "$1" == "docker-compose" ]; then
     shift 1
 
     if [ "$EXEC" == "yes" ]; then
-        ARGS+=(exec -u sail)
+        ARGS+=(exec -u peach)
         [ ! -t 0 ] && ARGS+=(-T)
         ARGS+=("$APP_SERVICE" "${DOCKER_COMPOSE[@]}")
     else
-        sail_is_not_running
+        peach_is_not_running
     fi
 
 # Proxy Composer commands to the "composer" binary on the application container...
@@ -246,11 +246,11 @@ elif [ "$1" == "composer" ]; then
     shift 1
 
     if [ "$EXEC" == "yes" ]; then
-        ARGS+=(exec -u sail)
+        ARGS+=(exec -u peach)
         [ ! -t 0 ] && ARGS+=(-T)
         ARGS+=("$APP_SERVICE" "composer" "$@")
     else
-        sail_is_not_running
+        peach_is_not_running
     fi
 
 # Proxy Artisan commands to the "artisan" binary on the application container...
@@ -258,11 +258,11 @@ elif [ "$1" == "artisan" ] || [ "$1" == "art" ] || [ "$1" == "a" ]; then
     shift 1
 
     if [ "$EXEC" == "yes" ]; then
-        ARGS+=(exec -u sail)
+        ARGS+=(exec -u peach)
         [ ! -t 0 ] && ARGS+=(-T)
         ARGS+=("$APP_SERVICE" php artisan "$@")
     else
-        sail_is_not_running
+        peach_is_not_running
     fi
 
 # Proxy the "debug" command to the "php artisan" binary on the application container with xdebug enabled...
@@ -270,11 +270,11 @@ elif [ "$1" == "debug" ]; then
     shift 1
 
     if [ "$EXEC" == "yes" ]; then
-        ARGS+=(exec -u sail -e XDEBUG_SESSION=1)
+        ARGS+=(exec -u peach -e XDEBUG_SESSION=1)
         [ ! -t 0 ] && ARGS+=(-T)
         ARGS+=("$APP_SERVICE" php artisan "$@")
     else
-        sail_is_not_running
+        peach_is_not_running
     fi
 
 # Proxy the "test" command to the "php artisan test" Artisan command...
@@ -282,11 +282,11 @@ elif [ "$1" == "test" ]; then
     shift 1
 
     if [ "$EXEC" == "yes" ]; then
-        ARGS+=(exec -u sail)
+        ARGS+=(exec -u peach)
         [ ! -t 0 ] && ARGS+=(-T)
         ARGS+=("$APP_SERVICE" php artisan test "$@")
     else
-        sail_is_not_running
+        peach_is_not_running
     fi
 
 # Proxy the "phpunit" command to "php vendor/bin/phpunit"...
@@ -294,11 +294,11 @@ elif [ "$1" == "phpunit" ]; then
     shift 1
 
     if [ "$EXEC" == "yes" ]; then
-        ARGS+=(exec -u sail)
+        ARGS+=(exec -u peach)
         [ ! -t 0 ] && ARGS+=(-T)
         ARGS+=("$APP_SERVICE" php vendor/bin/phpunit "$@")
     else
-        sail_is_not_running
+        peach_is_not_running
     fi
 
 # Proxy the "pest" command to "php vendor/bin/pest"...
@@ -306,11 +306,11 @@ elif [ "$1" == "pest" ]; then
     shift 1
 
     if [ "$EXEC" == "yes" ]; then
-        ARGS+=(exec -u sail)
+        ARGS+=(exec -u peach)
         [ ! -t 0 ] && ARGS+=(-T)
         ARGS+=("$APP_SERVICE" php vendor/bin/pest "$@")
     else
-        sail_is_not_running
+        peach_is_not_running
     fi
 
 # Proxy the "pint" command to "php vendor/bin/pint"...
@@ -318,11 +318,11 @@ elif [ "$1" == "pint" ]; then
     shift 1
 
     if [ "$EXEC" == "yes" ]; then
-        ARGS+=(exec -u sail)
+        ARGS+=(exec -u peach)
         [ ! -t 0 ] && ARGS+=(-T)
         ARGS+=("$APP_SERVICE" php vendor/bin/pint "$@")
     else
-        sail_is_not_running
+        peach_is_not_running
     fi
 
 # Proxy the "dusk" command to the "php artisan dusk" Artisan command...
@@ -330,13 +330,13 @@ elif [ "$1" == "dusk" ]; then
     shift 1
 
     if [ "$EXEC" == "yes" ]; then
-        ARGS+=(exec -u sail)
+        ARGS+=(exec -u peach)
         [ ! -t 0 ] && ARGS+=(-T)
         ARGS+=(-e "APP_URL=http://${APP_SERVICE}")
         ARGS+=(-e "DUSK_DRIVER_URL=http://selenium:4444/wd/hub")
         ARGS+=("$APP_SERVICE" php artisan dusk "$@")
     else
-        sail_is_not_running
+        peach_is_not_running
     fi
 
 # Proxy the "dusk:fails" command to the "php artisan dusk:fails" Artisan command...
@@ -344,13 +344,13 @@ elif [ "$1" == "dusk:fails" ]; then
     shift 1
 
     if [ "$EXEC" == "yes" ]; then
-        ARGS+=(exec -u sail)
+        ARGS+=(exec -u peach)
         [ ! -t 0 ] && ARGS+=(-T)
         ARGS+=(-e "APP_URL=http://${APP_SERVICE}")
         ARGS+=(-e "DUSK_DRIVER_URL=http://selenium:4444/wd/hub")
         ARGS+=("$APP_SERVICE" php artisan dusk:fails "$@")
     else
-        sail_is_not_running
+        peach_is_not_running
     fi
 
 # Initiate a Laravel Tinker session within the application container...
@@ -358,11 +358,11 @@ elif [ "$1" == "tinker" ] ; then
     shift 1
 
     if [ "$EXEC" == "yes" ]; then
-        ARGS+=(exec -u sail)
+        ARGS+=(exec -u peach)
         [ ! -t 0 ] && ARGS+=(-T)
         ARGS+=("$APP_SERVICE" php artisan tinker)
     else
-        sail_is_not_running
+        peach_is_not_running
     fi
 
 # Proxy Node commands to the "node" binary on the application container...
@@ -370,11 +370,11 @@ elif [ "$1" == "node" ]; then
     shift 1
 
     if [ "$EXEC" == "yes" ]; then
-        ARGS+=(exec -u sail)
+        ARGS+=(exec -u peach)
         [ ! -t 0 ] && ARGS+=(-T)
         ARGS+=("$APP_SERVICE" node "$@")
     else
-        sail_is_not_running
+        peach_is_not_running
     fi
 
 # Proxy NPM commands to the "npm" binary on the application container...
@@ -382,11 +382,11 @@ elif [ "$1" == "npm" ]; then
     shift 1
 
     if [ "$EXEC" == "yes" ]; then
-        ARGS+=(exec -u sail)
+        ARGS+=(exec -u peach)
         [ ! -t 0 ] && ARGS+=(-T)
         ARGS+=("$APP_SERVICE" npm "$@")
     else
-        sail_is_not_running
+        peach_is_not_running
     fi
 
 # Proxy NPX commands to the "npx" binary on the application container...
@@ -394,11 +394,11 @@ elif [ "$1" == "npx" ]; then
     shift 1
 
     if [ "$EXEC" == "yes" ]; then
-        ARGS+=(exec -u sail)
+        ARGS+=(exec -u peach)
         [ ! -t 0 ] && ARGS+=(-T)
         ARGS+=("$APP_SERVICE" npx "$@")
     else
-        sail_is_not_running
+        peach_is_not_running
     fi
 
 # Proxy PNPM commands to the "pnpm" binary on the application container...
@@ -406,11 +406,11 @@ elif [ "$1" == "pnpm" ]; then
     shift 1
 
     if [ "$EXEC" == "yes" ]; then
-        ARGS+=(exec -u sail)
+        ARGS+=(exec -u peach)
         [ ! -t 0 ] && ARGS+=(-T)
         ARGS+=("$APP_SERVICE" pnpm "$@")
     else
-        sail_is_not_running
+        peach_is_not_running
     fi
 
 # Proxy PNPX commands to the "pnpx" binary on the application container...
@@ -418,11 +418,11 @@ elif [ "$1" == "pnpx" ]; then
     shift 1
 
     if [ "$EXEC" == "yes" ]; then
-        ARGS+=(exec -u sail)
+        ARGS+=(exec -u peach)
         [ ! -t 0 ] && ARGS+=(-T)
         ARGS+=("$APP_SERVICE" pnpx "$@")
     else
-        sail_is_not_running
+        peach_is_not_running
     fi
 
 # Proxy YARN commands to the "yarn" binary on the application container...
@@ -430,11 +430,11 @@ elif [ "$1" == "yarn" ]; then
     shift 1
 
     if [ "$EXEC" == "yes" ]; then
-        ARGS+=(exec -u sail)
+        ARGS+=(exec -u peach)
         [ ! -t 0 ] && ARGS+=(-T)
         ARGS+=("$APP_SERVICE" yarn "$@")
     else
-        sail_is_not_running
+        peach_is_not_running
     fi
 
 # Proxy Bun commands to the "bun" binary on the application container...
@@ -442,11 +442,11 @@ elif [ "$1" == "bun" ]; then
     shift 1
 
     if [ "$EXEC" == "yes" ]; then
-        ARGS+=(exec -u sail)
+        ARGS+=(exec -u peach)
         [ ! -t 0 ] && ARGS+=(-T)
         ARGS+=("$APP_SERVICE" bun "$@")
     else
-        sail_is_not_running
+        peach_is_not_running
     fi
 
 # Proxy Bun X commands to the "bunx" binary on the application container...
@@ -454,11 +454,11 @@ elif [ "$1" == "bunx" ]; then
     shift 1
 
     if [ "$EXEC" == "yes" ]; then
-        ARGS+=(exec -u sail)
+        ARGS+=(exec -u peach)
         [ ! -t 0 ] && ARGS+=(-T)
         ARGS+=("$APP_SERVICE" bunx "$@")
     else
-        sail_is_not_running
+        peach_is_not_running
     fi
 
 # Initiate a MySQL CLI terminal session within the "mysql" container...
@@ -471,7 +471,7 @@ elif [ "$1" == "mysql" ]; then
         ARGS+=(mysql bash -c)
         ARGS+=("MYSQL_PWD=\${MYSQL_PASSWORD} mysql -u \${MYSQL_USER} \${MYSQL_DATABASE}")
     else
-        sail_is_not_running
+        peach_is_not_running
     fi
 
 # Initiate a MySQL CLI terminal session within the "mariadb" container...
@@ -484,7 +484,7 @@ elif [ "$1" == "mariadb" ]; then
         ARGS+=(mariadb bash -c)
         ARGS+=("MYSQL_PWD=\${MYSQL_PASSWORD} mysql -u \${MYSQL_USER} \${MYSQL_DATABASE}")
     else
-        sail_is_not_running
+        peach_is_not_running
     fi
 
 # Initiate a PostgreSQL CLI terminal session within the "pgsql" container...
@@ -497,7 +497,7 @@ elif [ "$1" == "psql" ]; then
         ARGS+=(pgsql bash -c)
         ARGS+=("PGPASSWORD=\${PGPASSWORD} psql -U \${POSTGRES_USER} \${POSTGRES_DB}")
     else
-        sail_is_not_running
+        peach_is_not_running
     fi
 
 # Initiate a Bash shell within the application container...
@@ -505,11 +505,11 @@ elif [ "$1" == "shell" ] || [ "$1" == "bash" ]; then
     shift 1
 
     if [ "$EXEC" == "yes" ]; then
-        ARGS+=(exec -u sail)
+        ARGS+=(exec -u peach)
         [ ! -t 0 ] && ARGS+=(-T)
         ARGS+=("$APP_SERVICE" bash "$@")
     else
-        sail_is_not_running
+        peach_is_not_running
     fi
 
 # Initiate a root user Bash shell within the application container...
@@ -521,7 +521,7 @@ elif [ "$1" == "root-shell" ] || [ "$1" == "root-bash" ]; then
         [ ! -t 0 ] && ARGS+=(-T)
         ARGS+=("$APP_SERVICE" bash "$@")
     else
-        sail_is_not_running
+        peach_is_not_running
     fi
 
 # Initiate a Redis CLI terminal session within the "redis" container...
@@ -533,7 +533,7 @@ elif [ "$1" == "redis" ] ; then
         [ ! -t 0 ] && ARGS+=(-T)
         ARGS+=(redis redis-cli)
     else
-        sail_is_not_running
+        peach_is_not_running
     fi
 
 # Share the site...
@@ -541,18 +541,18 @@ elif [ "$1" == "share" ]; then
     shift 1
 
     if [ "$EXEC" == "yes" ]; then
-        docker run --init --rm -p "$SAIL_SHARE_DASHBOARD":4040 -t beyondcodegmbh/expose-server:latest share http://host.docker.internal:"$APP_PORT" \
-            --server-host="$SAIL_SHARE_SERVER_HOST" \
-            --server-port="$SAIL_SHARE_SERVER_PORT" \
-            --auth="$SAIL_SHARE_TOKEN" \
-            --server="$SAIL_SHARE_SERVER" \
-            --subdomain="$SAIL_SHARE_SUBDOMAIN" \
-            --domain="$SAIL_SHARE_DOMAIN" \
+        docker run --init --rm -p "$PEACH_SHARE_DASHBOARD":4040 -t beyondcodegmbh/expose-server:latest share http://host.docker.internal:"$APP_PORT" \
+            --server-host="$PEACH_SHARE_SERVER_HOST" \
+            --server-port="$PEACH_SHARE_SERVER_PORT" \
+            --auth="$PEACH_SHARE_TOKEN" \
+            --server="$PEACH_SHARE_SERVER" \
+            --subdomain="$PEACH_SHARE_SUBDOMAIN" \
+            --domain="$PEACH_SHARE_DOMAIN" \
             "$@"
 
         exit
     else
-        sail_is_not_running
+        peach_is_not_running
     fi
 
 # Open the site...
@@ -564,7 +564,7 @@ elif [ "$1" == "open" ]; then
 
         exit
     else
-        sail_is_not_running
+        peach_is_not_running
     fi
 
 # Pass unknown commands to the "docker-compose" binary...
