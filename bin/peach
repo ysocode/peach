@@ -10,7 +10,7 @@ case "${UNAMEOUT}" in
 esac
 
 if [ "$MACHINE" == "UNKNOWN" ]; then
-    echo "Unsupported operating system [$(uname -s)]. Laravel Peach supports macOS, Linux, and Windows (WSL2)." >&2
+    echo "Unsupported operating system [$(uname -s)]. YSO Code Peach supports macOS, Linux, and Windows (WSL2)." >&2
 
     exit 1
 fi
@@ -30,7 +30,7 @@ fi
 
 # Function that prints the available commands...
 function display_help {
-    echo "Laravel Peach"
+    echo "YSO Code Peach"
     echo
     echo "${YELLOW}Usage:${NC}" >&2
     echo "  peach COMMAND [options] [arguments]"
@@ -44,17 +44,13 @@ function display_help {
     echo "  ${GREEN}peach restart${NC}   Restart the application"
     echo "  ${GREEN}peach ps${NC}        Display the status of all containers"
     echo
-    echo "${YELLOW}Artisan Commands:${NC}"
-    echo "  ${GREEN}peach artisan ...${NC}          Run an Artisan command"
-    echo "  ${GREEN}peach artisan queue:work${NC}"
-    echo
     echo "${YELLOW}PHP Commands:${NC}"
     echo "  ${GREEN}peach php ...${NC}   Run a snippet of PHP code"
     echo "  ${GREEN}peach php -v${NC}"
     echo
     echo "${YELLOW}Composer Commands:${NC}"
     echo "  ${GREEN}peach composer ...${NC}                       Run a Composer command"
-    echo "  ${GREEN}peach composer require laravel/sanctum${NC}"
+    echo "  ${GREEN}peach composer require ysocode/peach${NC}"
     echo
     echo "${YELLOW}Node Commands:${NC}"
     echo "  ${GREEN}peach node ...${NC}         Run a Node command"
@@ -85,24 +81,16 @@ function display_help {
     echo "  ${GREEN}peach psql${NC}      Start a PostgreSQL CLI session within the 'pgsql' container"
     echo "  ${GREEN}peach redis${NC}     Start a Redis CLI session within the 'redis' container"
     echo
-    echo "${YELLOW}Debugging:${NC}"
-    echo "  ${GREEN}peach debug ...${NC}          Run an Artisan command in debug mode"
-    echo "  ${GREEN}peach debug queue:work${NC}"
-    echo
     echo "${YELLOW}Running Tests:${NC}"
-    echo "  ${GREEN}peach test${NC}          Run the PHPUnit tests via the Artisan test command"
     echo "  ${GREEN}peach phpunit ...${NC}   Run PHPUnit"
     echo "  ${GREEN}peach pest ...${NC}      Run Pest"
     echo "  ${GREEN}peach pint ...${NC}      Run Pint"
-    echo "  ${GREEN}peach dusk${NC}          Run the Dusk tests (Requires the laravel/dusk package)"
-    echo "  ${GREEN}peach dusk:fails${NC}    Re-run previously failed Dusk tests (Requires the laravel/dusk package)"
     echo
     echo "${YELLOW}Container CLI:${NC}"
     echo "  ${GREEN}peach shell${NC}        Start a shell session within the application container"
     echo "  ${GREEN}peach bash${NC}         Alias for 'peach shell'"
     echo "  ${GREEN}peach root-shell${NC}   Start a root shell session within the application container"
     echo "  ${GREEN}peach root-bash${NC}    Alias for 'peach root-shell'"
-    echo "  ${GREEN}peach tinker${NC}       Start a new Laravel Tinker session"
     echo
     echo "${YELLOW}Sharing:${NC}"
     echo "  ${GREEN}peach share${NC}   Share the application publicly via a temporary URL"
@@ -112,7 +100,6 @@ function display_help {
     echo "  ${GREEN}peach bin ...${NC}   Run Composer binary scripts from the vendor/bin directory"
     echo
     echo "${YELLOW}Customization:${NC}"
-    echo "  ${GREEN}peach artisan peach:publish${NC}   Publish the Peach configuration files"
     echo "  ${GREEN}peach build --no-cache${NC}       Rebuild all of the Peach containers"
 
     exit 1
@@ -127,7 +114,7 @@ else
     display_help
 fi
 
-# Source the ".env" file so Laravel's environment variables are available...
+# Source the ".env" file so environment variables are available...
 if [ ! -z "$APP_ENV" ] && [ -f ./.env.$APP_ENV ]; then
   source ./.env.$APP_ENV;
 elif [ -f ./.env ]; then
@@ -136,14 +123,14 @@ fi
 
 # Define environment variables...
 export APP_PORT=${APP_PORT:-80}
-export APP_SERVICE=${APP_SERVICE:-"laravel.test"}
+export APP_SERVICE=${APP_SERVICE:-"ysocode.test"}
 export DB_PORT=${DB_PORT:-3306}
 export WWWUSER=${WWWUSER:-$UID}
 export WWWGROUP=${WWWGROUP:-$(id -g)}
 
 export PEACH_FILES=${PEACH_FILES:-""}
 export PEACH_SHARE_DASHBOARD=${PEACH_SHARE_DASHBOARD:-4040}
-export PEACH_SHARE_SERVER_HOST=${PEACH_SHARE_SERVER_HOST:-"laravel-peach.site"}
+export PEACH_SHARE_SERVER_HOST=${PEACH_SHARE_SERVER_HOST:-"ysocode-peach.site"}
 export PEACH_SHARE_SERVER_PORT=${PEACH_SHARE_SERVER_PORT:-8080}
 export PEACH_SHARE_SUBDOMAIN=${PEACH_SHARE_SUBDOMAIN:-""}
 export PEACH_SHARE_DOMAIN=${PEACH_SHARE_DOMAIN:-"$PEACH_SHARE_SERVER_HOST"}
@@ -253,42 +240,6 @@ elif [ "$1" == "composer" ]; then
         peach_is_not_running
     fi
 
-# Proxy Artisan commands to the "artisan" binary on the application container...
-elif [ "$1" == "artisan" ] || [ "$1" == "art" ] || [ "$1" == "a" ]; then
-    shift 1
-
-    if [ "$EXEC" == "yes" ]; then
-        ARGS+=(exec -u peach)
-        [ ! -t 0 ] && ARGS+=(-T)
-        ARGS+=("$APP_SERVICE" php artisan "$@")
-    else
-        peach_is_not_running
-    fi
-
-# Proxy the "debug" command to the "php artisan" binary on the application container with xdebug enabled...
-elif [ "$1" == "debug" ]; then
-    shift 1
-
-    if [ "$EXEC" == "yes" ]; then
-        ARGS+=(exec -u peach -e XDEBUG_SESSION=1)
-        [ ! -t 0 ] && ARGS+=(-T)
-        ARGS+=("$APP_SERVICE" php artisan "$@")
-    else
-        peach_is_not_running
-    fi
-
-# Proxy the "test" command to the "php artisan test" Artisan command...
-elif [ "$1" == "test" ]; then
-    shift 1
-
-    if [ "$EXEC" == "yes" ]; then
-        ARGS+=(exec -u peach)
-        [ ! -t 0 ] && ARGS+=(-T)
-        ARGS+=("$APP_SERVICE" php artisan test "$@")
-    else
-        peach_is_not_running
-    fi
-
 # Proxy the "phpunit" command to "php vendor/bin/phpunit"...
 elif [ "$1" == "phpunit" ]; then
     shift 1
@@ -321,46 +272,6 @@ elif [ "$1" == "pint" ]; then
         ARGS+=(exec -u peach)
         [ ! -t 0 ] && ARGS+=(-T)
         ARGS+=("$APP_SERVICE" php vendor/bin/pint "$@")
-    else
-        peach_is_not_running
-    fi
-
-# Proxy the "dusk" command to the "php artisan dusk" Artisan command...
-elif [ "$1" == "dusk" ]; then
-    shift 1
-
-    if [ "$EXEC" == "yes" ]; then
-        ARGS+=(exec -u peach)
-        [ ! -t 0 ] && ARGS+=(-T)
-        ARGS+=(-e "APP_URL=http://${APP_SERVICE}")
-        ARGS+=(-e "DUSK_DRIVER_URL=http://selenium:4444/wd/hub")
-        ARGS+=("$APP_SERVICE" php artisan dusk "$@")
-    else
-        peach_is_not_running
-    fi
-
-# Proxy the "dusk:fails" command to the "php artisan dusk:fails" Artisan command...
-elif [ "$1" == "dusk:fails" ]; then
-    shift 1
-
-    if [ "$EXEC" == "yes" ]; then
-        ARGS+=(exec -u peach)
-        [ ! -t 0 ] && ARGS+=(-T)
-        ARGS+=(-e "APP_URL=http://${APP_SERVICE}")
-        ARGS+=(-e "DUSK_DRIVER_URL=http://selenium:4444/wd/hub")
-        ARGS+=("$APP_SERVICE" php artisan dusk:fails "$@")
-    else
-        peach_is_not_running
-    fi
-
-# Initiate a Laravel Tinker session within the application container...
-elif [ "$1" == "tinker" ] ; then
-    shift 1
-
-    if [ "$EXEC" == "yes" ]; then
-        ARGS+=(exec -u peach)
-        [ ! -t 0 ] && ARGS+=(-T)
-        ARGS+=("$APP_SERVICE" php artisan tinker)
     else
         peach_is_not_running
     fi
