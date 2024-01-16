@@ -1,6 +1,6 @@
 <?php
 
-namespace Laravel\Sail\Console;
+namespace YSOCode\Peach\Console;
 
 use Illuminate\Console\Command;
 

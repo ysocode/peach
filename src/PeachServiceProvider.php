@@ -4,9 +4,9 @@ namespace Laravel\Sail;
 
 use Illuminate\Contracts\Support\DeferrableProvider;
 use Illuminate\Support\ServiceProvider;
-use Laravel\Sail\Console\AddCommand;
-use Laravel\Sail\Console\InstallCommand;
-use Laravel\Sail\Console\PublishCommand;
+use YSOCode\Peach\Console\AddCommand;
+use YSOCode\Peach\Console\InstallCommand;
+use YSOCode\Peach\Console\PublishCommand;
 
 class SailServiceProvider extends ServiceProvider implements DeferrableProvider
 {

@@ -1,9 +1,9 @@
 <?php
 
-namespace Laravel\Sail\Console;
+namespace YSOCode\Peach\Console;
 
 use Illuminate\Console\Command;
-use Laravel\Sail\Console\Concerns\InteractsWithDockerComposeServices;
+use YSOCode\Peach\Console\Concerns\InteractsWithDockerComposeServices;
 
 class AddCommand extends Command
 {

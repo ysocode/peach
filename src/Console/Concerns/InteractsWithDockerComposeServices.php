@@ -1,6 +1,6 @@
 <?php
 
-namespace Laravel\Sail\Console\Concerns;
+namespace YSOCode\Peach\Console\Concerns;
 
 use Symfony\Component\Process\Process;
 use Symfony\Component\Yaml\Yaml;
