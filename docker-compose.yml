@@ -1,26 +1,53 @@
 services:
+    caddy:
+        build:
+            context: ./runtimes/caddy
+            dockerfile: Dockerfile
+            args:
+                WWWGROUP: "${WWWGROUP}"
+        image: caddy-latest/server
+        restart: unless-stopped
+        cap_add:
+            - NET_ADMIN
+        ports:
+            - "80:80"
+            - "443:443"
+            - "443:443/udp"
+        environment:
+            WWWUSER: "${WWWUSER}"
+        volumes:
+            - "./runtimes/8.0/Caddyfile:/etc/caddy/Caddyfile"
+            - ".:/var/www/html"
+            - "caddy_data:/data"
+            - "caddy_config:/config"
+        networks:
+            - peach
+
     ysocode.test:
         build:
             context: ./runtimes/8.0
             dockerfile: Dockerfile
             args:
-                WWWGROUP: '${WWWGROUP}'
+                WWWGROUP: "${WWWGROUP}"
         image: peach-8.0/app
         extra_hosts:
-            - 'host.docker.internal:host-gateway'
+            - "host.docker.internal:host-gateway"
         ports:
-            - '${APP_PORT:-80}:80'
-            - '${VITE_PORT:-5173}:${VITE_PORT:-5173}'
+            - "5173:5173"
         environment:
-            WWWUSER: '${WWWUSER}'
+            WWWUSER: "${WWWUSER}"
             YSOCODE_PEACH: 1
-            XDEBUG_MODE: '${PEACH_XDEBUG_MODE:-off}'
-            XDEBUG_CONFIG: '${PEACH_XDEBUG_CONFIG:-client_host=host.docker.internal}'
-            IGNITION_LOCAL_SITES_PATH: '${PWD}'
+            XDEBUG_MODE: "${PEACH_XDEBUG_MODE:-off}"
+            XDEBUG_CONFIG: "${PEACH_XDEBUG_CONFIG:-client_host=host.docker.internal}"
         volumes:
-            - '.:/usr/share/caddy'
+            - ".:/var/www/html"
         networks:
             - peach
+
+volumes:
+  caddy_data:
+  caddy_config:
+
 networks:
     peach:
         driver: bridge

@@ -1,9 +1,9 @@
-FROM php:8.0-fpm
+FROM php:7.4-fpm
 
 LABEL maintainer="Yuri Oliveira"
 
 ARG WWWGROUP
-ARG NODE_VERSION=20
+ARG NODE_VERSION=14
 ARG POSTGRES_VERSION=13
 
 WORKDIR /var/www/html
@@ -51,6 +51,6 @@ RUN apt-get update \
 RUN groupadd --force -g $WWWGROUP peach
 RUN useradd -ms /bin/bash --no-user-group -g $WWWGROUP -u 1337 peach
 
-COPY php.ini /etc/php/8.0/cli/conf.d/99-peach.ini
+COPY php.ini /etc/php/7.4/cli/conf.d/99-peach.ini
 
 EXPOSE 9000
