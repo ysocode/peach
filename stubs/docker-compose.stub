@@ -16,7 +16,7 @@ services:
         environment:
             WWWUSER: "${WWWUSER}"
         volumes:
-            - "./vendor/ysocode/peach/runtimes/8.0/Caddyfile:/etc/caddy/Caddyfile"
+            - "./vendor/ysocode/peach/runtimes/7.4/Caddyfile:/etc/caddy/Caddyfile"
             - ".:/var/www/html"
             - "caddy_data:/data"
             - "caddy_config:/config"
@@ -25,11 +25,11 @@ services:
 
     ysocode.test:
         build:
-            context: ./vendor/ysocode/peach/runtimes/8.0
+            context: ./vendor/ysocode/peach/runtimes/7.4
             dockerfile: Dockerfile
             args:
                 WWWGROUP: "${WWWGROUP}"
-        image: peach-8.0/php
+        image: peach-7.4/php
         extra_hosts:
             - "host.docker.internal:host-gateway"
         ports:
