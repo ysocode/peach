@@ -16,12 +16,12 @@ composer require ysocode/peach
 
 ##### Configurando um Alias de Shell:
 
-Por padrão, os comandos do Peach são invocados usando o script **vendor/bin/sail**
+Por padrão, os comandos do Peach são invocados usando o script **vendor/bin/peach**
 ```shell
-./vendor/bin/sail up
+./vendor/bin/peach up
 ```
 
-Entretanto, em vez de digitar repetidamente vendor/bin/peach para executar comandos do Sail, você pode desejar configurar um alias de shell que permita executar os comandos do Peach de forma mais fácil:
+Entretanto, em vez de digitar repetidamente vendor/bin/peach para executar comandos do Peach, você pode desejar configurar um alias de shell que permita executar os comandos do Peach de forma mais fácil:
 ```shell
 alias peach="[ -f peach ] && sh peach || sh vendor/bin/peach'
 ```
@@ -39,7 +39,7 @@ Antes de iniciar o Peach, certifique-se de que nenhum outro servidor web ou banc
 peach up
 ```
 
-Para iniciar todos os contêineres Docker em segundo plano, você pode iniciar o Sail no modo "detached":
+Para iniciar todos os contêineres Docker em segundo plano, você pode iniciar o Peach no modo "detached":
 ```shell
 peach up -d
 ```
