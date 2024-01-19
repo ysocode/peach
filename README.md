@@ -47,7 +47,7 @@ peach up -d
 Depois que os contêineres da aplicação forem iniciados, você poderá acessar o projeto em seu navegador da web pelo endereço: http://localhost.
 
 
-Para parar todos os contêineres, você pode simplesmente pressionar Control + C para interromper a execução do contêiner. Ou, se os contêineres estiverem em execução em segundo plano, você pode usar o comando **stop**:
+Para parar todos os contêineres, você pode pressionar Control + C para interromper a execução do contêiner. Se os contêineres estiverem em execução em segundo plano, você pode usar o comando **stop**:
 ```shell
 peach stop
 ```
