@@ -26,4 +26,27 @@ interface OutputInterface
      * @return bool
      */
     public function writeOutput(string $toWrite): bool;
+
+    /**
+     * Prepare output error.
+     *
+     * @param string $toWrite
+     * @return static
+     */
+    public function writeError(string $toWrite);
+
+    /**
+     * Write in output error channel.
+     *
+     * @return bool
+     */
+    public function outputError(): bool;
+
+    /**
+     * Write in output error channel.
+     *
+     * @param string $toWrite
+     * @return bool
+     */
+    public function writeOutputError(string $toWrite): bool;
 }

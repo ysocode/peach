@@ -1,16 +1,14 @@
 <?php
 
-namespace YSOCode\Peach\Interfaces;
+namespace YSOCode\Peach\Executors\Interfaces;
 
 use YSOCode\Peach\Basket;
 use YSOCode\Peach\Commands\Interfaces\CommandInterface;
-use YSOCode\Peach\InputCLI;
-use YSOCode\Peach\OutputCLI;
 
 interface CommandExecutorInterface
 {
     /**
-     * Create a new CommandCollection instance.
+     * Create a new CommandExecutor instance.
      *
      * @param Basket $basket
      * @return void
@@ -18,7 +16,7 @@ interface CommandExecutorInterface
     public function __construct(Basket $basket);
 
     /**
-     * Register the console command.
+     * Register the command.
      *
      * @param CommandInterface|string $command
      * @return void
@@ -33,16 +31,30 @@ interface CommandExecutorInterface
     public function getRegisteredCommands(): array;
 
     /**
-     * Run the console command.
+     * Run the command.
      *
      * @return void
      */
     public function run(): void;
 
     /**
-     * Check if has the requested command
+     * Indicates if has the requested command
      *
      * @return boolean
      */
     public function hasRequestedCommand(): bool;
+
+    /**
+     * Mark the commands as attached.
+     *
+     * @return void
+     */
+    public function markAsAttached(): void;
+
+    /**
+     * Indicates if the commands have been attached.
+     *
+     * @return bool
+     */
+    public function isAttached(): bool;
 }

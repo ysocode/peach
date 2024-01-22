@@ -2,19 +2,19 @@
 
 namespace YSOCode\Peach\Commands\Interfaces;
 
-use YSOCode\Peach\InputCLI;
-use YSOCode\Peach\OutputCLI;
+use YSOCode\Peach\Interfaces\InputInterface;
+use YSOCode\Peach\Interfaces\OutputInterface;
 
 interface CommandInterface
 {
     /**
      * Run the console command.
      *
-     * @param InputCLI $input
-     * @param OutputCLI $output
+     * @param InputInterface $input
+     * @param OutputInterface $output
      * @return bool
      */
-    public function handle(InputCLI $input, OutputCLI $output): bool;
+    public function handle(InputInterface $input, OutputInterface $output): bool;
 
     /**
      * Returns the signature of the command.

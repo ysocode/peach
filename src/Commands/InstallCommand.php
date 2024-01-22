@@ -2,19 +2,21 @@
 
 namespace YSOCode\Peach\Commands;
 
-use YSOCode\Peach\InputCLI;
-use YSOCode\Peach\OutputCLI;
-use YSOCode\Peach\Commands\Command;
+use YSOCode\Peach\Interfaces\InputInterface;
+use YSOCode\Peach\Interfaces\OutputInterface;
+use YSOCode\Peach\Commands\Traits\CommandTrait;
 use YSOCode\Peach\Commands\Interfaces\CommandInterface;
 
-class InstallCommand extends Command implements CommandInterface
+class InstallCommand implements CommandInterface
 {
+    use CommandTrait;
+
     /**
      * The name and signature of the console command.
      *
      * @var array<string, string>
      */
-    const SIGNATURE = [
+    protected static array $signature = [
         'command' => 'peach:install',
         '--with' => 'The services that should be included in the installation',
     ];
@@ -29,13 +31,13 @@ class InstallCommand extends Command implements CommandInterface
     /**
      * Run the console command.
      * 
-     * @param InputCLI $input
-     * @param OutputCLI $output
+     * @param InputInterface $input
+     * @param OutputInterface $output
      * @return bool
      */
-    public function handle(InputCLI $input, OutputCLI $output): bool
+    public function handle(InputInterface $input, OutputInterface $output): bool
     {
-        $output->write('Choose the services you want to include in the installation:')->output();
+        $output->writeOutput('Choose the services you want to include in the installation:');
         $input->readInput();
 
         return true;

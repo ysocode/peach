@@ -2,9 +2,23 @@
 
 namespace YSOCode\Peach;
 
-class OutputCLI
+use YSOCode\Peach\Interfaces\OutputInterface;
+
+class OutputCLI implements OutputInterface
 {
+    /**
+     * The output.
+     *
+     * @var string $output
+     */
     protected string $output;
+
+    /**
+     * The output error.
+     *
+     * @var string $outputError
+     */
+    protected string $outputError;
 
     /**
      * Prepare output.
@@ -26,7 +40,7 @@ class OutputCLI
      */
     public function output(): bool
     {
-        return !! fwrite(STDOUT, $this->output) ?: false;
+        return !!fwrite(STDOUT, $this->output) ?: false;
     }
 
     /**
@@ -39,5 +53,41 @@ class OutputCLI
     {
         $this->write($toWrite);
         return $this->output();
+    }
+
+    /**
+     * Prepare output error.
+     *
+     * @param string $toWrite
+     * @return static
+     */
+    public function writeError(string $toWrite)
+    {
+        $this->outputError = $toWrite . PHP_EOL;
+
+        return $this;
+    }
+
+    /**
+     * Write in output error (STDERR).
+     *
+     * @return bool
+     */
+    public function outputError(): bool
+    {
+        return !! fwrite(STDERR, $this->outputError) ?: false;
+    }
+
+    /**
+     * Write in output error channel.
+     *
+     * @param string $toWrite
+     * @return bool
+     */
+    public function writeOutputError(string $toWrite): bool
+    {
+        $this->writeError($toWrite);
+
+        return $this->outputError();
     }
 }

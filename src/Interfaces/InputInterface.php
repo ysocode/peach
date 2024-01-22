@@ -5,21 +5,21 @@ namespace YSOCode\Peach\Interfaces;
 interface InputInterface
 {
     /**
-     * Read a input channel.
+     * Read a line from the input channel.
      *
      * @return string
      */
     public function readInput(): string;
 
     /**
-     * Get the command.
+     * Get the requested command.
      *
      * @return string
      */
     public function getCommand(): string;
 
     /**
-     * Get the arguments.
+     * Get arguments from the requested command.
      *
      * @return array<string, array>
      */

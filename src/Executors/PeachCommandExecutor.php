@@ -1,13 +1,14 @@
 <?php
 
-namespace YSOCode\Peach;
+namespace YSOCode\Peach\Executors;
 
 use Exception;
+use YSOCode\Peach\Basket;
 use YSOCode\Peach\Commands\AddCommand;
 use YSOCode\Peach\Commands\InstallCommand;
-use YSOCode\Peach\Traits\CommandExecutorTrait;
-use YSOCode\Peach\Interfaces\CommandExecutorInterface;
 use YSOCode\Peach\Commands\Interfaces\CommandInterface;
+use YSOCode\Peach\Executors\Traits\CommandExecutorTrait;
+use YSOCode\Peach\Executors\Interfaces\CommandExecutorInterface;
 
 class PeachCommandExecutor implements CommandExecutorInterface
 {
@@ -21,7 +22,7 @@ class PeachCommandExecutor implements CommandExecutorInterface
     protected array $commands = [];
 
     /**
-     * Informer if has the requested command
+     * Indicates if has the requested command
      *
      * @var bool
      */
@@ -48,7 +49,7 @@ class PeachCommandExecutor implements CommandExecutorInterface
      */
     public function registerCommand($command): void
     {
-        if ($this->attached) {
+        if ($this->isAttached()) {
 
             throw new Exception('Cannot register commands after they have been attached.');
         }
@@ -77,7 +78,7 @@ class PeachCommandExecutor implements CommandExecutorInterface
     }
 
     /**
-     * get the registered command.
+     * get the registered console command.
      *
      * @param string $command
      * @return CommandInterface|false
@@ -93,7 +94,7 @@ class PeachCommandExecutor implements CommandExecutorInterface
     }
 
     /**
-     * get the registered commands.
+     * get the registered console commands.
      *
      * @return array<CommandInterface>
      */
@@ -128,6 +129,11 @@ class PeachCommandExecutor implements CommandExecutorInterface
         }
     }
 
+    /**
+     * Indicates if has the requested command
+     *
+     * @return boolean
+     */
     public function hasRequestedCommand(): bool
     {
         return $this->hasRequestedCommand;

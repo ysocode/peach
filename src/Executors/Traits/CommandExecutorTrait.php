@@ -1,13 +1,13 @@
 <?php
 
-namespace YSOCode\Peach\Traits;
+namespace YSOCode\Peach\Executors\Traits;
 
 use YSOCode\Peach\Basket;
 
 trait CommandExecutorTrait
 {
     /**
-     * Booted Basket instances.
+     * Basket instances.
      *
      * @var Basket $basket
      */
@@ -21,7 +21,7 @@ trait CommandExecutorTrait
     protected bool $attached = false;
 
     /**
-     * Create a new CommandCollection instance.
+     * Create a new CommandExecutor instance.
      *
      * @param Basket $basket
      * @return void
@@ -31,8 +31,23 @@ trait CommandExecutorTrait
         $this->basket = $basket;
     }
 
-    public function markAsAttached()
+    /**
+     * Mark the commands as attached.
+     *
+     * @return void
+     */
+    public function markAsAttached(): void
     {
         $this->attached = true;
+    }
+
+    /**
+     * Indicates if the commands have been attached.
+     *
+     * @return bool
+     */
+    public function isAttached(): bool
+    {
+        return $this->attached;
     }
 }

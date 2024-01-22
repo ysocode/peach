@@ -2,10 +2,12 @@
 
 namespace YSOCode\Peach;
 
+use Error;
 use Exception;
-use YSOCode\Peach\InputCLI;
-use YSOCode\Peach\OutputCLI;
-use YSOCode\Peach\Interfaces\CommandExecutorInterface;
+use YSOCode\Peach\Interfaces\InputInterface;
+use YSOCode\Peach\Interfaces\OutputInterface;
+use YSOCode\Peach\ErrorHandler\Interfaces\ErrorHandlerInterface;
+use YSOCode\Peach\Executors\Interfaces\CommandExecutorInterface;
 
 class Basket
 {
@@ -17,42 +19,49 @@ class Basket
     protected array $executors = [];
 
     /**
-     * The Input.
+     * The input channel.
      *
-     * @var InputCLI $input
+     * @var InputInterface $input
      */
-    protected InputCLI $input;
+    protected InputInterface $input;
 
     /**
-     * The Output.
+     * The output channel.
      *
-     * @var OutputCLI $output
+     * @var OutputInterface $output
      */
-    protected OutputCLI $output;
+    protected OutputInterface $output;
 
     /**
-     * The array of booting callbacks.
+     * The booting callbacks.
      *
      * @var callable[] $bootingCallbacks
      */
     protected $bootingCallbacks = [];
 
     /**
-     * The array of booted callbacks.
+     * The booted callbacks.
      *
      * @var callable[] $bootedCallbacks
      */
     protected $bootedCallbacks = [];
 
     /**
-     * The array of executors have the requested command.
+     * The executors who have the requested command.
      *
      * @var array<CommandExecutorInterface> $hasRequestedCommand
      */
     protected $hasRequestedCommand = [];
 
     /**
-     * Indicates if the application has "booted".
+     * The command not found error handler.
+     *
+     * @var ErrorHandlerInterface $commandNotFoundErrorHandler
+     */
+    protected ErrorHandlerInterface $commandNotFoundErrorHandler;
+
+    /**
+     * Indicates if the Basket has booted.
      *
      * @var bool
      */
@@ -61,11 +70,11 @@ class Basket
     /**
      * Create a new Basket instance.
      *
-     * @param InputCLI $input
-     * @param OutputCLI $output
+     * @param InputInterface $input
+     * @param OutputInterface $output
      * @return void
      */
-    public function __construct(InputCLI $input, OutputCLI $output)
+    public function __construct(InputInterface $input, OutputInterface $output)
     {
         $this->input = $input;
         $this->output = $output;
@@ -95,16 +104,16 @@ class Basket
         }
 
         $this->executors[] = $executor;
+        $executor->markAsAttached();
     }
 
     /**
      * Run all executors.
      *
-     * @return array<OutputCLI>
+     * @return void
      */
-    protected function runExecutors(): array
+    protected function runExecutors(): void
     {
-        $outputs = [];
         foreach ($this->executors as $executor) {
 
             $executor->run();
@@ -112,12 +121,10 @@ class Basket
                 $this->hasRequestedCommand[] = $executor;
             }
         }
-
-        return $outputs;
     }
 
     /**
-     * Determine if the Basket has booted.
+     * Indicates if the Basket has booted.
      *
      * @return bool
      */
@@ -127,7 +134,7 @@ class Basket
     }
 
     /**
-     * Register a new boot listener.
+     * Register a new "booting" callback.
      *
      * @param callable $callback
      * @return void
@@ -138,7 +145,7 @@ class Basket
     }
 
     /**
-     * Register a new "booted" listener.
+     * Register a new "booted" callback.
      *
      * @param callable $callback
      * @return void
@@ -193,27 +200,64 @@ class Basket
 
         if (! $this->hasRequestedCommand) {
 
-            $this->output->writeOutput('The requested command not exists.');
+            $this->getCommandNotFoundErrorHandler()->handle();
         }
     }
 
     /**
-     * Get the Input.
+     * Get the input channel.
      *
-     * @return InputCLI
+     * @return InputInterface
      */
-    public function getInput(): InputCLI
+    public function getInput(): InputInterface
     {
         return $this->input;
     }
 
     /**
-     * Get the Output.
+     * Get the output channel.
      *
-     * @return OutputCLI
+     * @return OutputInterface
      */
-    public function getOutput(): OutputCLI
+    public function getOutput(): OutputInterface
     {
         return $this->output;
+    }
+
+    /**
+     * Set the command not found error handler.
+     *
+     * @param ErrorHandlerInterface|string $commandNotFoundErrorHandler
+     * @return void
+     */    
+    public function setCommandNotFoundErrorHandler($commandNotFoundErrorHandler): void
+    {
+        if (is_string($commandNotFoundErrorHandler)) {
+
+            if (! class_exists($commandNotFoundErrorHandler)) {
+
+                throw new Exception("Class {$commandNotFoundErrorHandler} does not exist.");
+            }
+
+            $commandNotFoundErrorHandler = new $commandNotFoundErrorHandler($this);
+
+        }
+
+        if (! ($commandNotFoundErrorHandler instanceof ErrorHandlerInterface)) {
+
+            throw new Exception('ErrorHandler ' . get_class($commandNotFoundErrorHandler) . ' must implement ' . ErrorHandlerInterface::class . '.');
+        }
+
+        $this->commandNotFoundErrorHandler = $commandNotFoundErrorHandler;
+    }
+
+    /**
+     * Get the command not found error handler.
+     *
+     * @return ErrorHandlerInterface
+     */
+    public function getCommandNotFoundErrorHandler(): ErrorHandlerInterface
+    {
+        return $this->commandNotFoundErrorHandler;
     }
 }

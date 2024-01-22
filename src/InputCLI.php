@@ -2,7 +2,9 @@
 
 namespace YSOCode\Peach;
 
-class InputCLI
+use YSOCode\Peach\Interfaces\InputInterface;
+
+class InputCLI implements InputInterface
 {
     /**
      * The script being runing.
@@ -12,14 +14,14 @@ class InputCLI
     protected string $script;
 
     /**
-     * The command.
+     * The requested command.
      *
      * @var string $command
      */
     protected string $command;
 
     /**
-     * The command arguments.
+     * The arguments from the requested command.
      *
      * @var array<string, array> $arguments
      */
@@ -35,6 +37,11 @@ class InputCLI
         $this->readScriptArguments();
     }
 
+    /**
+     * Read the script arguments.
+     *
+     * @return void
+     */
     protected function readScriptArguments()
     {
         $scriptArguments = $this->getScriptArguments();
@@ -49,6 +56,18 @@ class InputCLI
     }
 
     /**
+     * Get the script arguments.
+     *
+     * @return array<int, string>
+     */
+    protected function getScriptArguments(): array
+    {
+        $arguments = $_SERVER['argv'];
+
+        return $arguments;
+    }
+
+    /**
      * Read a line from the standard input (STDIN).
      *
      * @return string
@@ -59,7 +78,17 @@ class InputCLI
     }
 
     /**
-     * Set the command arguments.
+     * Get the requested command.
+     *
+     * @return string
+     */
+    public function getCommand(): string
+    {
+        return $this->command;
+    }
+
+    /**
+     * Set arguments from the requested command.
      *
      * @param array<int, string> $scriptArguments
      * @return void
@@ -87,29 +116,7 @@ class InputCLI
     }
 
     /**
-     * Get the CLI arguments.
-     *
-     * @return array<int, string>
-     */
-    protected function getScriptArguments(): array
-    {
-        $arguments = $_SERVER['argv'];
-
-        return $arguments;
-    }
-
-    /**
-     * Get the command.
-     *
-     * @return string
-     */
-    public function getCommand(): string
-    {
-        return $this->command;
-    }
-
-    /**
-     * Get the arguments.
+     * Get arguments from the requested command.
      *
      * @return array<string, array>
      */
