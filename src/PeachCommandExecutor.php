@@ -3,9 +3,8 @@
 namespace YSOCode\Peach;
 
 use Exception;
-use YSOCode\Peach\OutputCLI;
 use YSOCode\Peach\Commands\AddCommand;
-use YSOCode\Peach\Commands\InitCommand;
+use YSOCode\Peach\Commands\InstallCommand;
 use YSOCode\Peach\Traits\CommandExecutorTrait;
 use YSOCode\Peach\Interfaces\CommandExecutorInterface;
 use YSOCode\Peach\Commands\Interfaces\CommandInterface;
@@ -105,7 +104,7 @@ class PeachCommandExecutor implements CommandExecutorInterface
      */
     protected function registerBaseCommands(): void
     {
-        $this->registerCommand(InitCommand::class);
+        $this->registerCommand(InstallCommand::class);
         $this->registerCommand(AddCommand::class);
     }
 

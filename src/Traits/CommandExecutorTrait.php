@@ -14,6 +14,13 @@ trait CommandExecutorTrait
     protected Basket $basket;
 
     /**
+     * Whether the commands have been attached.
+     *
+     * @var bool $attached
+     */
+    protected bool $attached = false;
+
+    /**
      * Create a new CommandCollection instance.
      *
      * @param Basket $basket
@@ -23,13 +30,6 @@ trait CommandExecutorTrait
     {
         $this->basket = $basket;
     }
-
-    /**
-     * Whether the commands have been attached.
-     *
-     * @var bool $attached
-     */
-    protected bool $attached = false;
 
     public function markAsAttached()
     {
