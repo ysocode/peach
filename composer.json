@@ -19,6 +19,9 @@
             "YSOCode\\Peach\\": "src/"
         }
     },
+    "scripts": {
+        "phpstan": "vendor/bin/phpstan"
+    },
     "extra": {
         "branch-alias": {
             "dev-main": "1.x-dev"

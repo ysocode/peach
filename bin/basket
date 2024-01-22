@@ -1,0 +1,26 @@
+#!/usr/bin/env php
+<?php
+
+use YSOCode\Peach\Basket;
+use YSOCode\Peach\PeachCommandExecutor;
+use YSOCode\Peach\InputCLI;
+use YSOCode\Peach\OutputCLI;
+
+/*
+|--------------------------------------------------------------------------
+| Boot Basket
+|--------------------------------------------------------------------------
+*/
+
+require dirname(__DIR__) . '/vendor/autoload.php';
+
+$basket = new Basket(
+    new InputCLI(),
+    new OutputCLI(),
+);
+
+$basket->registerExecutor(
+    PeachCommandExecutor::class,
+);
+
+$basket->boot();
