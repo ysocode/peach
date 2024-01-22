@@ -17,10 +17,10 @@ abstract class Command implements CommandInterface
      * Returns the signature of the command.
      *
      * @param string $parameter The name of the parameter.
-     * @return string The signature of the command.
+     * @return string|false
      */
-    public static function signature(string $parameter): string
+    public static function signature(string $parameter)
     {
-        return isset(static::SIGNATURE[$parameter]) ? static::SIGNATURE[$parameter] : 'Parameter not found';
+        return isset(static::SIGNATURE[$parameter]) ? static::SIGNATURE[$parameter] : false;
     }
 }

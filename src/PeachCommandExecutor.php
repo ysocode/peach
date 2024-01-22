@@ -63,11 +63,16 @@ class PeachCommandExecutor implements CommandExecutorInterface
             $command = new $command();
         }
 
-        if (!($command instanceof CommandInterface)) {
+        if (! ($command instanceof CommandInterface)) {
 
             throw new Exception('Command ' . get_class($command) . ' must implement ' . CommandInterface::class . '.');
         }
 
+        if (! $command->signature('command')) {
+
+            throw new Exception('Command ' . get_class($command) . ' must have a command name.');
+        }
+        
         $this->commands[$command->signature('command')] = $command;
     }
 

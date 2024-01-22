@@ -20,7 +20,7 @@ interface CommandInterface
      * Returns the signature of the command.
      *
      * @param string $parameter The name of the parameter.
-     * @return string The signature of the command.
+     * @return string|false
      */
-    public static function signature(string $parameter): string;
+    public static function signature(string $parameter);
 }
