@@ -12,11 +12,11 @@ use YSOCode\Peach\Executors\Interfaces\CommandExecutorInterface;
 class Basket
 {
     /**
-     * Executors.
+     * Command executors.
      *
-     * @var array<CommandExecutorInterface> $executors
+     * @var array<CommandExecutorInterface> $commandExecutors
      */
-    protected array $executors = [];
+    protected array $commandExecutors = [];
 
     /**
      * The input channel.
@@ -47,11 +47,11 @@ class Basket
     protected $bootedCallbacks = [];
 
     /**
-     * The executors who have the requested command.
+     * The command executors who have the requested command.
      *
-     * @var array<CommandExecutorInterface> $hasRequestedCommand
+     * @var array<CommandExecutorInterface> $commandExecutorsWithRequestedCommand
      */
-    protected $hasRequestedCommand = [];
+    protected $commandExecutorsWithRequestedCommand = [];
 
     /**
      * The command not found error handler.
@@ -81,46 +81,77 @@ class Basket
     }
 
     /**
-     * Register the executor.
+     * Register the command executor.
      *
-     * @param CommandExecutorInterface|string $executor
+     * @param CommandExecutorInterface|string $commandExecutor
      * @return void
      */
-    public function registerExecutor($executor): void
+    public function registerCommandExecutor($commandExecutor): void
     {
-        if (is_string($executor)) {
+        if (is_string($commandExecutor)) {
 
-            if (! class_exists($executor)) {
+            if (! class_exists($commandExecutor)) {
 
-                throw new Exception("Class {$executor} does not exist.");
+                throw new Exception("Class {$commandExecutor} does not exist.");
             }
 
-            $executor = new $executor($this);
+            $commandExecutor = new $commandExecutor($this);
         }
 
-        if (! ($executor instanceof CommandExecutorInterface)) {
+        if (! ($commandExecutor instanceof CommandExecutorInterface)) {
 
-            throw new Exception('CommandExecutor ' . get_class($executor) . ' must implement ' . CommandExecutorInterface::class . '.');
+            throw new Exception('CommandExecutor ' . get_class($commandExecutor) . ' must implement ' . CommandExecutorInterface::class . '.');
         }
 
-        $this->executors[] = $executor;
-        $executor->markAsAttached();
+        $this->commandExecutors[] = $commandExecutor;
+        $commandExecutor->markAsAttached();
     }
 
     /**
-     * Run all executors.
+     * Get the registered command executors.
+     *
+     * @return array<CommandExecutorInterface>
+     */
+    public function getRegisteredCommandExecutors(): array
+    {
+        return $this->commandExecutors;
+    }
+
+    /**
+     * Run all command executors.
      *
      * @return void
      */
-    protected function runExecutors(): void
+    protected function runCommandExecutors(): void
     {
-        foreach ($this->executors as $executor) {
+        foreach ($this->getRegisteredCommandExecutors() as $commandExecutor) {
 
-            $executor->run();
-            if ($executor->hasRequestedCommand()) {
-                $this->hasRequestedCommand[] = $executor;
+            $commandExecutor->run();
+            if ($commandExecutor->hasRequestedCommand()) {
+                $this->registerCommandExecutorsWithRequestedCommand($commandExecutor);
             }
         }
+    }
+
+    /**
+     * Register the command executors who have the requested command.
+     *
+     * @param CommandExecutorInterface $commandExecutor
+     * @return void
+     */
+    protected function registerCommandExecutorsWithRequestedCommand(CommandExecutorInterface $commandExecutor): void
+    {
+        $this->commandExecutorsWithRequestedCommand[] = $commandExecutor;
+    }
+
+    /**
+     * Get the registered command executors who have the requested command.
+     *
+     * @return array<CommandExecutorInterface>
+     */
+    protected function getRegisteredCommandExecutorsWithRequestedCommand(): array
+    {
+        return $this->commandExecutorsWithRequestedCommand;
     }
 
     /**
@@ -194,11 +225,11 @@ class Basket
         
         $this->callBootingCallbacks();
 
-        $this->runExecutors();
+        $this->runCommandExecutors();
 
         $this->callBootedCallbacks();
 
-        if (! $this->hasRequestedCommand) {
+        if (! $this->getRegisteredCommandExecutorsWithRequestedCommand()) {
 
             $this->getCommandNotFoundErrorHandler()->handle();
         }

@@ -7,7 +7,6 @@ use YSOCode\Peach\OutputCLI;
 use YSOCode\Peach\Executors\PeachCommandExecutor;
 use YSOCode\Peach\ErrorHandler\CommandNotFoundErrorHandler;
 
-
 /*
 |--------------------------------------------------------------------------
 | Boot Basket
@@ -25,7 +24,7 @@ $basket->setCommandNotFoundErrorHandler(
     CommandNotFoundErrorHandler::class
 );
 
-$basket->registerExecutor(
+$basket->registerCommandExecutor(
     PeachCommandExecutor::class,
 );
 
