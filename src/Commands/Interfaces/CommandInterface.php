@@ -8,6 +8,21 @@ use YSOCode\Peach\Interfaces\OutputInterface;
 interface CommandInterface
 {
     /**
+     * Returns the command name.
+     *
+     * @return string
+     */
+    public function getCommand(): string;
+
+    /**
+     * Returns the signature of the command.
+     *
+     * @param string $parameter The name of the parameter.
+     * @return string|array|false
+     */
+    public static function getSignature(string $parameter = '');
+
+    /**
      * Run the console command.
      *
      * @param InputInterface $input
@@ -15,12 +30,4 @@ interface CommandInterface
      * @return bool
      */
     public function handle(InputInterface $input, OutputInterface $output): bool;
-
-    /**
-     * Returns the signature of the command.
-     *
-     * @param string $parameter The name of the parameter.
-     * @return string|false
-     */
-    public static function signature(string $parameter);
 }

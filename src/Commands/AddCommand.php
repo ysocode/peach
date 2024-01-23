@@ -12,12 +12,18 @@ class AddCommand implements CommandInterface
     use CommandTrait;
 
     /**
+     * The command name.
+     *
+     * @var string
+     */
+    protected string $command = 'peach:add';
+
+    /**
      * The name and signature of the console command.
      *
      * @var array<string, string>
      */
     protected static array $signature = [
-        'command' => 'peach:add',
         '--services' => 'The services that should be added',
     ];
 
@@ -27,6 +33,16 @@ class AddCommand implements CommandInterface
      * @var string
      */
     protected $description = 'Add a service to an existing Peach installation';
+
+    /**
+     * Returns the command name.
+     * 
+     * @return string
+     */
+    public function getCommand(): string
+    {
+        return $this->command;
+    }
 
     /**
      * Run the console command.

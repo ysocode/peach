@@ -12,12 +12,18 @@ class InstallCommand implements CommandInterface
     use CommandTrait;
 
     /**
+     * The command name.
+     *
+     * @var string
+     */
+    protected string $command = 'peach:install';
+
+    /**
      * The name and signature of the console command.
      *
      * @var array<string, string>
      */
     protected static array $signature = [
-        'command' => 'peach:install',
         '--with' => 'The services that should be included in the installation',
     ];
 
@@ -27,6 +33,16 @@ class InstallCommand implements CommandInterface
      * @var string
      */
     protected $description = 'Install YSOCode Peach\'s default Docker Compose file';
+
+    /**
+     * Returns the command name.
+     * 
+     * @return string
+     */
+    public function getCommand(): string
+    {
+        return $this->command;
+    }
 
     /**
      * Run the console command.
