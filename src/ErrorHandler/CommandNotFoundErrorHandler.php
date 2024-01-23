@@ -26,6 +26,11 @@ class CommandNotFoundErrorHandler implements ErrorHandlerInterface
         $this->basket = $basket;
     }
 
+    /**
+     * Handle the error.
+     *
+     * @return void
+     */
     public function handle(): void
     {
         $registeredCommandExecutors = $this->basket->getRegisteredCommandExecutors();
@@ -39,11 +44,11 @@ class CommandNotFoundErrorHandler implements ErrorHandlerInterface
         $output = '';
         foreach ($registeredCommands as $registeredCommand) {
             
-            $output .= "Command: {$registeredCommand->getCommand()}" . PHP_EOL;
+            $output .= "Command: " . $registeredCommand->getCommand() . PHP_EOL;
 
             foreach ($registeredCommand->getSignature() as $parameter => $description) {
 
-                $output .= "    {$parameter}: {$description}" . PHP_EOL;
+                $output .= "  {$parameter}: {$description}" . PHP_EOL;
             }
 
             $output .= PHP_EOL;

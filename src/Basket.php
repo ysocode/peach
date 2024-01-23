@@ -12,6 +12,13 @@ use YSOCode\Peach\Executors\Interfaces\CommandExecutorInterface;
 class Basket
 {
     /**
+     * Base path.
+     *
+     * @var string $basePath
+     */
+    protected string $basePath;
+
+    /**
      * Command executors.
      *
      * @var array<CommandExecutorInterface> $commandExecutors
@@ -70,14 +77,28 @@ class Basket
     /**
      * Create a new Basket instance.
      *
+     * @param string $basePath
      * @param InputInterface $input
      * @param OutputInterface $output
      * @return void
      */
-    public function __construct(InputInterface $input, OutputInterface $output)
+    public function __construct(string $basePath, InputInterface $input, OutputInterface $output)
     {
+        $this->basePath = $basePath;
+
         $this->input = $input;
         $this->output = $output;
+    }
+
+    /**
+     * Get the base path.
+     *
+     * @param string $path
+     * @return string
+     */
+    public function getBasePath(string $path = ''): string
+    {
+        return $this->basePath . $path;
     }
 
     /**

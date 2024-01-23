@@ -123,7 +123,7 @@ class PeachCommandExecutor implements CommandExecutorInterface
     {
         if ($command = $this->getRegisteredCommand($this->basket->getInput()->getCommand())) {
 
-            $command->handle($this->basket->getInput(), $this->basket->getOutput());
+            $command->handle($this->basket);
 
             $this->hasRequestedCommand = true;
         }

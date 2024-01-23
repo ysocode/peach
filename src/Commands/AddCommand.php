@@ -2,8 +2,7 @@
 
 namespace YSOCode\Peach\Commands;
 
-use YSOCode\Peach\Interfaces\InputInterface;
-use YSOCode\Peach\Interfaces\OutputInterface;
+use YSOCode\Peach\Basket;
 use YSOCode\Peach\Commands\Traits\CommandTrait;
 use YSOCode\Peach\Commands\Interfaces\CommandInterface;
 
@@ -47,11 +46,10 @@ class AddCommand implements CommandInterface
     /**
      * Run the console command.
      * 
-     * @param InputInterface $input
-     * @param OutputInterface $output
+     * @param Basket $basket
      * @return bool
      */
-    public function handle(InputInterface $input, OutputInterface $output): bool
+    public function handle(Basket $basket): bool
     {
         return true;
     }

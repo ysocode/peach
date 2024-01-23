@@ -16,6 +16,7 @@ use YSOCode\Peach\ErrorHandler\CommandNotFoundErrorHandler;
 require dirname(__DIR__) . '/vendor/autoload.php';
 
 $basket = new Basket(
+    getcwd(),
     new InputCLI(),
     new OutputCLI()
 );
