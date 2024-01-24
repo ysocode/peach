@@ -79,7 +79,7 @@ class InstallCommand implements CommandInterface
 
                 if ($yesOrNot != 'y' && $yesOrNot != 'n') {
     
-                    $doYouWantToInstallTheDefaultServices();
+                    return $doYouWantToInstallTheDefaultServices();
                 }
 
                 return $yesOrNot;
