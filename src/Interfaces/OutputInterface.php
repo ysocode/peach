@@ -10,7 +10,7 @@ interface OutputInterface
      * @param string $toWrite
      * @return static
      */
-    public function write(string $toWrite);
+    public function write(string $toWrite): OutputInterface;
 
     /**
      * Write in output channel.

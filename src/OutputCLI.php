@@ -11,7 +11,7 @@ class OutputCLI implements OutputInterface
      *
      * @var string $output
      */
-    protected string $output;
+    protected string $output = '';
 
     /**
      * The output error.
@@ -24,11 +24,11 @@ class OutputCLI implements OutputInterface
      * Prepare output.
      *
      * @param string $toWrite
-     * @return static
+     * @return OutputCLI
      */
-    public function write(string $toWrite)
+    public function write(string $toWrite): OutputCLI
     {
-        $this->output = $toWrite . PHP_EOL;
+        $this->output .= $toWrite . PHP_EOL;
 
         return $this;
     }
@@ -40,7 +40,9 @@ class OutputCLI implements OutputInterface
      */
     public function output(): bool
     {
-        return !!fwrite(STDOUT, $this->output) ?: false;
+        $success = !! fwrite(STDOUT, $this->output) ?: false;
+        $this->output = '';
+        return $success;
     }
 
     /**
@@ -63,7 +65,7 @@ class OutputCLI implements OutputInterface
      */
     public function writeError(string $toWrite)
     {
-        $this->outputError = $toWrite . PHP_EOL;
+        $this->outputError .= $toWrite . PHP_EOL;
 
         return $this;
     }
@@ -75,7 +77,9 @@ class OutputCLI implements OutputInterface
      */
     public function outputError(): bool
     {
-        return !! fwrite(STDERR, $this->outputError) ?: false;
+        $success = !! fwrite(STDERR, $this->outputError) ?: false;
+        $this->outputError = '';
+        return $success;
     }
 
     /**

@@ -62,11 +62,59 @@ class InstallCommand implements CommandInterface
      */
     public function handle(Basket $basket): bool
     {
-        $basket->getOutput()->writeOutput('Choose the services you want to include in the installation:');
-        $this->services = explode(' ', $basket->getInput()->readInput());
-
         $YMLInteraction = new DockerComposeInteraction($basket);
 
+        $basket->getOutput()->write('Services: [' . implode(', ', $YMLInteraction->getAvailableServices()) . ']');
+        $basket->getOutput()->write('Choose the services you want to include in the installation:');
+        $basket->getOutput()->output();
+        
+        $chosenServices = $basket->getInput()->readInput();
+
+        if (! $chosenServices) {
+            
+            $doYouWantToInstallTheDefaultServices = function () use ($basket, $YMLInteraction, &$doYouWantToInstallTheDefaultServices)
+            {
+                $basket->getOutput()->write('Default services: [' . implode(', ', $YMLInteraction->getDefaultServices()) . ']');
+                $basket->getOutput()->write('Do you want to install the default services: (y/n)');
+                $basket->getOutput()->output();
+                $yesOrNot = $basket->getInput()->readInput();
+
+                if ($yesOrNot != 'y' && $yesOrNot != 'n') {
+    
+                    $doYouWantToInstallTheDefaultServices();
+                }
+
+                return $yesOrNot;
+            };
+
+            $yesOrNot = $doYouWantToInstallTheDefaultServices();
+
+            $actions = [
+                'y' => function () use ($basket, $YMLInteraction) {
+                    $basket->getOutput()->writeOutput(PHP_EOL . 'Installing default services...');
+                    $services = $YMLInteraction->getDefaultServices();
+                    $this->services = $services;
+                    $YMLInteraction->buildDockerCompose($this->services);
+                    return true;
+                },
+                'n' => function () use ($basket) {
+                    $basket->getOutput()->writeOutput(PHP_EOL . 'No services selected. Exiting...');
+                    return false;
+                }
+            ];
+
+            if ($actions[$yesOrNot]()) {
+
+                $this->prepareInstallation($basket);
+
+                return true;
+            }
+
+            return false;
+        }
+
+        $basket->getOutput()->writeOutput(PHP_EOL . 'Installing default services...');
+        $this->services = explode(' ', $chosenServices);
         $YMLInteraction->buildDockerCompose($this->services);
 
         $this->prepareInstallation($basket);
