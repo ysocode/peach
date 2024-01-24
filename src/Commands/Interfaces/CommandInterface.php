@@ -19,7 +19,7 @@ interface CommandInterface
      * @param string $parameter
      * @return string|array|false
      */
-    public static function getSignature(string $parameter = '');
+    public function getSignature(string $parameter = '');
 
     /**
      * Returns the description of the command.

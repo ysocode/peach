@@ -14,23 +14,23 @@ class AddCommand implements CommandInterface
     /**
      * The command name.
      *
-     * @var string
+     * @var string|null
      */
-    protected string $command = 'peach:add';
+    protected $command = 'peach:add';
 
     /**
      * The signature of the console command.
      *
-     * @var array<string, string>
+     * @var null|array<string, string>
      */
-    protected array $signature = [
+    protected $signature = [
         '--services' => 'The services that should be added',
     ];
 
     /**
      * The console command description.
      *
-     * @var string
+     * @var string|null
      */
     protected $description = 'Add a service to an existing Peach installation';
 

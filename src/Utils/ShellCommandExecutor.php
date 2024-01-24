@@ -26,16 +26,16 @@ class ShellCommandExecutor
      * Execute a shell command.
      *
      * @param string $command
-     * @return static|false
+     * @return ShellCommandExecutor
      */
     public static function executeCommand(string $command)
     {
         exec($command, $output, $returnedStatusCode);
 
-        $instance = new static;
+        $instance = new self;
         $instance->returnedStatusCode = $returnedStatusCode;
 
-        if ($returnedStatusCode === static::SUCCESS_STATUS_CODE) {
+        if ($returnedStatusCode === self::SUCCESS_STATUS_CODE) {
 
             $instance->output = $output;
         }
