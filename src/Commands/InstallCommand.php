@@ -3,8 +3,6 @@
 namespace YSOCode\Peach\Commands;
 
 use YSOCode\Peach\Basket;
-use YSOCode\Peach\Interfaces\InputInterface;
-use YSOCode\Peach\Interfaces\OutputInterface;
 use YSOCode\Peach\Utils\ShellCommandExecutor;
 use YSOCode\Peach\Commands\Traits\CommandTrait;
 use YSOCode\Peach\Commands\Interfaces\CommandInterface;

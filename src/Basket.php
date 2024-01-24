@@ -2,7 +2,6 @@
 
 namespace YSOCode\Peach;
 
-use Error;
 use Exception;
 use YSOCode\Peach\Interfaces\InputInterface;
 use YSOCode\Peach\Interfaces\OutputInterface;

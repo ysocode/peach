@@ -13,7 +13,7 @@ use YSOCode\Peach\ErrorHandler\CommandNotFoundErrorHandler;
 |--------------------------------------------------------------------------
 */
 
-require dirname(__DIR__) . '/vendor/autoload.php';
+require dirname(__DIR__) . '/autoload.php';
 
 $basket = new Basket(
     getcwd(),
