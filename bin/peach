@@ -105,19 +105,6 @@ function display_help {
     exit 1
 }
 
-# Prepare the peach setup...
-if [ "$1" == "basket:init" ]; then
-    shift 1
-
-    # Check if the command is executed within a project directory where Peach is installed
-    if [ ! -d "./vendor/bin/peach" ]; then
-        echo "Error: The 'init' command must be executed in the project directory where Peach is installed."
-        exit 1
-    fi
-
-    ./vendor/bin/basket init "$@"
-fi
-
 # Proxy the "help" command...
 if [ $# -gt 0 ]; then
     if [ "$1" == "help" ] || [ "$1" == "-h" ] || [ "$1" == "-help" ] || [ "$1" == "--help" ]; then
