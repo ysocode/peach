@@ -11,7 +11,7 @@ Peach é inspirado e derivado do Sail, criado por Taylor Otwell. Para mais infor
 ##### Instale o Peach utilizando o Composer:
 
 ```shell
-composer require ysocode/peach
+composer require ysocode/peach --dev
 ```
 
 ##### Configure o ambiente para o Peach usando o Gerenciador Basket:
