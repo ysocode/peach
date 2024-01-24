@@ -105,7 +105,7 @@ class InstallCommand implements CommandInterface
 
             if ($actions[$yesOrNot]()) {
 
-                $this->prepareInstallation($basket);
+                $basket->getOutput()->writeOutput("Run 'peach up -d' to start the services.");
 
                 return true;
             }
@@ -113,11 +113,11 @@ class InstallCommand implements CommandInterface
             return false;
         }
 
-        $basket->getOutput()->writeOutput(PHP_EOL . 'Installing default services...');
+        $basket->getOutput()->writeOutput(PHP_EOL . 'Installing chosen services...');
         $this->services = explode(' ', $chosenServices);
         $YMLInteraction->buildDockerCompose($this->services);
 
-        $this->prepareInstallation($basket);
+        $basket->getOutput()->writeOutput("Run 'peach up -d' to start the services.");
 
         return true;
     }
