@@ -2,6 +2,8 @@
 
 namespace YSOCode\Peach\Commands\Traits;
 
+use YSOCode\Peach\Basket;
+
 trait CommandTrait
 {
     /**
@@ -18,5 +20,18 @@ trait CommandTrait
         }
 
         return false;
+    }
+
+    /**
+     * Checks if a docker-compose.yml file already exists in the current directory.
+     * 
+     * @param Basket $basket
+     * @return bool
+     */
+    protected function dockerComposeExists(Basket $basket): bool
+    {
+        $composePath = $basket->getBasePath('/docker-compose.yml');
+
+        return file_exists($composePath);
     }
 }

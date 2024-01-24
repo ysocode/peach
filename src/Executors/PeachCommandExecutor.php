@@ -111,7 +111,7 @@ class PeachCommandExecutor implements CommandExecutorInterface
     protected function registerBaseCommands(): void
     {
         $this->registerCommand(InstallCommand::class);
-        // $this->registerCommand(AddCommand::class);
+        $this->registerCommand(AddCommand::class);
     }
 
     /**

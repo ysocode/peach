@@ -18,7 +18,7 @@ class OutputCLI implements OutputInterface
      *
      * @var string $outputError
      */
-    protected string $outputError;
+    protected string $outputError = '';
 
     /**
      * Prepare output.

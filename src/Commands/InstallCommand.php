@@ -3,7 +3,6 @@
 namespace YSOCode\Peach\Commands;
 
 use YSOCode\Peach\Basket;
-use YSOCode\Peach\Utils\ShellCommandExecutor;
 use YSOCode\Peach\Commands\Traits\CommandTrait;
 use YSOCode\Peach\Commands\Interfaces\CommandInterface;
 use YSOCode\Peach\Interactions\DockerComposeInteraction;
@@ -27,13 +26,6 @@ class InstallCommand implements CommandInterface
     protected static array $signature = [
         '--with' => 'The services that should be included in the installation',
     ];
-
-    /**
-     * Selected services.
-     *
-     * @var array<string>
-     */
-    protected array $services = [];
 
     /**
      * The console command description.
@@ -60,9 +52,18 @@ class InstallCommand implements CommandInterface
      */
     public function handle(Basket $basket): bool
     {
-        $YMLInteraction = new DockerComposeInteraction($basket);
+        if ($this->dockerComposeExists($basket)) {
 
-        $basket->getOutput()->write('Services: [' . implode(', ', $YMLInteraction->getAvailableServices()) . ']');
+            $basket->getOutput()->writeError('A docker-compose.yml file already exists in this directory.');
+            $basket->getOutput()->writeError("Run './vendor/bin/basket peach:add' to add services.");
+            $basket->getOutput()->outputError();
+
+            return false;
+        }
+
+        $dockerComposeInteraction = new DockerComposeInteraction($basket);
+
+        $basket->getOutput()->write('Services: [' . implode(', ', $dockerComposeInteraction->getAvailableServices()) . ']');
         $basket->getOutput()->write('Choose the services you want to include in the installation:');
         $basket->getOutput()->output();
         
@@ -70,29 +71,28 @@ class InstallCommand implements CommandInterface
 
         if (! $chosenServices) {
             
-            $doYouWantToInstallTheDefaultServices = function () use ($basket, $YMLInteraction, &$doYouWantToInstallTheDefaultServices)
+            function doYouWantToInstallTheDefaultServices(Basket $basket, DockerComposeInteraction $dockerComposeInteraction)
             {
-                $basket->getOutput()->write('Default services: [' . implode(', ', $YMLInteraction->getDefaultServices()) . ']');
+                $basket->getOutput()->write('Default services: [' . implode(', ', $dockerComposeInteraction->getDefaultServices()) . ']');
                 $basket->getOutput()->write('Do you want to install the default services: (y/n)');
                 $basket->getOutput()->output();
                 $yesOrNot = $basket->getInput()->readInput();
 
                 if ($yesOrNot != 'y' && $yesOrNot != 'n') {
     
-                    return $doYouWantToInstallTheDefaultServices();
+                    return doYouWantToInstallTheDefaultServices($basket, $dockerComposeInteraction);
                 }
 
                 return $yesOrNot;
-            };
+            }
 
-            $yesOrNot = $doYouWantToInstallTheDefaultServices();
+            $yesOrNot = doYouWantToInstallTheDefaultServices($basket, $dockerComposeInteraction);
 
             $actions = [
-                'y' => function () use ($basket, $YMLInteraction) {
+                'y' => function () use ($basket, $dockerComposeInteraction) {
                     $basket->getOutput()->writeOutput(PHP_EOL . 'Installing default services...');
-                    $services = $YMLInteraction->getDefaultServices();
-                    $this->services = $services;
-                    $YMLInteraction->buildDockerCompose($this->services);
+                    $services = $dockerComposeInteraction->getDefaultServices();
+                    $dockerComposeInteraction->buildDockerCompose($services);
                     return true;
                 },
                 'n' => function () use ($basket) {
@@ -103,7 +103,7 @@ class InstallCommand implements CommandInterface
 
             if ($actions[$yesOrNot]()) {
 
-                $basket->getOutput()->writeOutput("Run 'peach up -d' to start the services.");
+                $basket->getOutput()->writeOutput("Run './vendor/bin/peach up -d' to start the services.");
 
                 return true;
             }
@@ -112,50 +112,11 @@ class InstallCommand implements CommandInterface
         }
 
         $basket->getOutput()->writeOutput(PHP_EOL . 'Installing chosen services...');
-        $this->services = explode(' ', $chosenServices);
-        $YMLInteraction->buildDockerCompose($this->services);
+        $chosenServicesAsArray = explode(' ', $chosenServices);
+        $dockerComposeInteraction->buildDockerCompose($chosenServicesAsArray);
 
-        $basket->getOutput()->writeOutput("Run 'peach up -d' to start the services.");
+        $basket->getOutput()->writeOutput("Run './vendor/bin/peach up -d' to start the services.");
 
         return true;
-    }
-
-    /**
-     * Prepare the installation by pulling and building any necessary images.
-     * 
-     * @param Basket $basket
-     * @return void
-     */
-    protected function prepareInstallation(Basket $basket): void
-    {
-        // Ensure docker is installed...
-        if (!$this->runCommands(['docker info > /dev/null 2>&1'])) {
-            return;
-        }
-
-        if (count($this->services) > 0) {
-
-            if ($this->runCommands(['./vendor/bin/peach pull ' . implode(' ', $this->services)])) {
-
-                $basket->getOutput()->writeOutput('Peach images installed successfully.');
-            }
-        }
-
-        if ($this->runCommands(['./vendor/bin/peach build'])) {
-
-            $basket->getOutput()->writeOutput('Peach build successful.');
-        }
-    }
-
-    /**
-     * Run the given commands.
-     *
-     * @param  array  $commands
-     * @return bool
-     */
-    protected function runCommands($commands): bool
-    {
-        $returnedStatusCode = ShellCommandExecutor::executeCommand(implode(' && ', $commands))->getReturnedStatusCode();
-        return $returnedStatusCode === ShellCommandExecutor::SUCCESS_STATUS_CODE ? true : false;
     }
 }
