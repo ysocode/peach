@@ -3,7 +3,6 @@
 namespace YSOCode\Peach\ErrorHandler;
 
 use YSOCode\Peach\Basket;
-use YSOCode\Peach\Commands\Interfaces\CommandInterface;
 use YSOCode\Peach\ErrorHandler\Interfaces\ErrorHandlerInterface;
 
 class CommandNotFoundErrorHandler implements ErrorHandlerInterface
