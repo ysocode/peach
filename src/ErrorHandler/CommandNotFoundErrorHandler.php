@@ -15,7 +15,7 @@ class CommandNotFoundErrorHandler implements ErrorHandlerInterface
     protected Basket $basket;
 
     /**
-     * Create a new ErrorHandler instance.
+     * Create a new CommandNotFoundErrorHandler instance.
      *
      * @param Basket $basket
      * @return void
@@ -40,19 +40,16 @@ class CommandNotFoundErrorHandler implements ErrorHandlerInterface
             $registeredCommands = array_merge($registeredCommands, $commandExecutor->getRegisteredCommands());
         }
 
-        $output = '';
         foreach ($registeredCommands as $registeredCommand) {
             
-            $output .= "Command: " . $registeredCommand->getCommand() . PHP_EOL;
+            $this->basket->getOutput()->writeError("Command: " . $registeredCommand->getCommand());
 
             foreach ($registeredCommand->getSignature() as $parameter => $description) {
 
-                $output .= "  {$parameter}: {$description}" . PHP_EOL;
+                $this->basket->getOutput()->writeError("  {$parameter}: {$description}");
             }
-
-            $output .= PHP_EOL;
         }
 
-        $this->basket->getOutput()->writeOutputError($output);
+        $this->basket->getOutput()->outputError();
     }
 }

@@ -9,20 +9,27 @@ interface CommandInterface
     /**
      * Returns the command name.
      *
-     * @return string
+     * @return string|false
      */
-    public function getCommand(): string;
+    public function getCommand();
 
     /**
      * Returns the signature of the command.
      *
-     * @param string $parameter The name of the parameter.
+     * @param string $parameter
      * @return string|array|false
      */
-    public static function getSignature(string $parameter = '');
+    public function getSignature(string $parameter = '');
 
     /**
-     * Run the console command.
+     * Returns the description of the command.
+     *
+     * @return string|false
+     */
+    public function getDescription();
+
+    /**
+     * Run command.
      *
      * @param Basket $basket
      * @return bool

@@ -8,7 +8,7 @@ interface OutputInterface
      * Prepare output.
      *
      * @param string $toWrite
-     * @return static
+     * @return OutputInterface
      */
     public function write(string $toWrite): OutputInterface;
 
@@ -31,7 +31,7 @@ interface OutputInterface
      * Prepare output error.
      *
      * @param string $toWrite
-     * @return static
+     * @return OutputInterface
      */
     public function writeError(string $toWrite);
 

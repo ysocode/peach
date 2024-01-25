@@ -7,14 +7,14 @@ use YSOCode\Peach\Basket;
 trait CommandExecutorTrait
 {
     /**
-     * Basket instances.
+     * The basket instance.
      *
      * @var Basket $basket
      */
     protected Basket $basket;
 
     /**
-     * Whether the commands have been attached.
+     * Indicates if the commands have been attached.
      *
      * @var bool $attached
      */
