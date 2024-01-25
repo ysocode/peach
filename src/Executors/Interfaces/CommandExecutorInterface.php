@@ -26,7 +26,7 @@ interface CommandExecutorInterface
     /**
      * get the registered commands.
      *
-     * @return array<CommandInterface>
+     * @return array<int, CommandInterface>
      */
     public function getRegisteredCommands(): array;
 

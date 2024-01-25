@@ -14,7 +14,7 @@ trait CommandExecutorTrait
     protected Basket $basket;
 
     /**
-     * Whether the commands have been attached.
+     * Indicates if the commands have been attached.
      *
      * @var bool $attached
      */

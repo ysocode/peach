@@ -46,7 +46,7 @@ class ShellCommandExecutor
     /**
      * Get the output of the command.
      *
-     * @return array
+     * @return array<int, string>
      */
     public function getOutput(): array
     {

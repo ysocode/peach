@@ -17,7 +17,7 @@ class PeachCommandExecutor implements CommandExecutorInterface
     /**
      * The commands.
      *
-     * @var array<CommandInterface> $commands
+     * @var array<int, CommandInterface> $commands
      */
     protected array $commands = [];
 
@@ -96,7 +96,7 @@ class PeachCommandExecutor implements CommandExecutorInterface
     /**
      * get the registered console commands.
      *
-     * @return array<CommandInterface>
+     * @return array<int, CommandInterface>
      */
     public function getRegisteredCommands(): array
     {

@@ -16,7 +16,7 @@ class DockerComposeInteraction
     /**
      * The available services that may be installed.
      *
-     * @var array<string>
+     * @var array<int, string>
      */
     protected array $availableServices = [
         'mysql',
@@ -34,7 +34,7 @@ class DockerComposeInteraction
     /**
      * The default services used when the user chooses non-interactive mode.
      *
-     * @var array<string>
+     * @var array<int, string>
      */
     protected array $defaultServices = ['mysql', 'redis', 'selenium', 'mailpit'];
 
@@ -52,7 +52,7 @@ class DockerComposeInteraction
     /**
      * Get the available services.
      *
-     * @return array<string>
+     * @return array<int, string>
      */
     public function getAvailableServices(): array
     {
@@ -62,7 +62,7 @@ class DockerComposeInteraction
     /**
      * Get the default services.
      *
-     * @return array<string>
+     * @return array<int, string>
      */
     public function getDefaultServices(): array
     {
@@ -72,7 +72,7 @@ class DockerComposeInteraction
     /**
      * Build the Docker Compose file.
      *
-     * @param array $services
+     * @param array<int, string> $services
      * @return void
      */
     public function buildDockerCompose(array $services): void

@@ -20,7 +20,7 @@ class Basket
     /**
      * Command executors.
      *
-     * @var array<CommandExecutorInterface> $commandExecutors
+     * @var array<int, CommandExecutorInterface> $commandExecutors
      */
     protected array $commandExecutors = [];
 
@@ -55,7 +55,7 @@ class Basket
     /**
      * The command executors who have the requested command.
      *
-     * @var array<CommandExecutorInterface> $commandExecutorsWithRequestedCommand
+     * @var array<int, CommandExecutorInterface> $commandExecutorsWithRequestedCommand
      */
     protected $commandExecutorsWithRequestedCommand = [];
 
@@ -130,7 +130,7 @@ class Basket
     /**
      * Get the registered command executors.
      *
-     * @return array<CommandExecutorInterface>
+     * @return array<int, CommandExecutorInterface>
      */
     public function getRegisteredCommandExecutors(): array
     {
@@ -167,7 +167,7 @@ class Basket
     /**
      * Get the registered command executors who have the requested command.
      *
-     * @return array<CommandExecutorInterface>
+     * @return array<int, CommandExecutorInterface>
      */
     protected function getRegisteredCommandExecutorsWithRequestedCommand(): array
     {
