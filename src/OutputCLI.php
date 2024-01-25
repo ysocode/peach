@@ -61,7 +61,7 @@ class OutputCLI implements OutputInterface
      * Prepare output error.
      *
      * @param string $toWrite
-     * @return static
+     * @return OutputCLI
      */
     public function writeError(string $toWrite)
     {
@@ -83,7 +83,7 @@ class OutputCLI implements OutputInterface
     }
 
     /**
-     * Write in output error channel.
+     * Write in output error (STDERR).
      *
      * @param string $toWrite
      * @return bool
