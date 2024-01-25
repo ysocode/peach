@@ -7,7 +7,7 @@ use YSOCode\Peach\Basket;
 trait CommandExecutorTrait
 {
     /**
-     * Basket instances.
+     * The basket instance.
      *
      * @var Basket $basket
      */

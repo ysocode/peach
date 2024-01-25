@@ -32,14 +32,14 @@ class DockerComposeInteraction
     ];
 
     /**
-     * The default services used when the user chooses non-interactive mode.
+     * The default services.
      *
      * @var array<int, string>
      */
     protected array $defaultServices = ['mysql', 'redis', 'selenium', 'mailpit'];
 
     /**
-     * Install the given services.
+     * Create a new DockerComposeInteraction instance.
      *
      * @param Basket $basket
      * @return void

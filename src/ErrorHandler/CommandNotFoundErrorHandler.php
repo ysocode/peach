@@ -15,7 +15,7 @@ class CommandNotFoundErrorHandler implements ErrorHandlerInterface
     protected Basket $basket;
 
     /**
-     * Create a new ErrorHandler instance.
+     * Create a new CommandNotFoundErrorHandler instance.
      *
      * @param Basket $basket
      * @return void
