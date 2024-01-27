@@ -29,6 +29,7 @@ class DockerComposeInteraction
         'mailpit',
         'selenium',
         'soketi',
+        'typesense',
     ];
 
     /**
