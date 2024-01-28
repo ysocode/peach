@@ -38,7 +38,7 @@ RUN groupadd --force -g $WWWGROUP peach
 RUN useradd -ms /bin/bash --no-user-group -g $WWWGROUP -u 1337 peach
 
 COPY start-container /usr/local/bin/start-container
-COPY php.ini /etc/php/8.0/cli/conf.d/99-peach.ini
+COPY php.ini /etc/php/8.3/cli/conf.d/99-peach.ini
 
 RUN chmod +x /usr/local/bin/start-container
 
