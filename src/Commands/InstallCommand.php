@@ -53,6 +53,10 @@ class InstallCommand implements CommandInterface
 
         $dockerComposeInteraction = new DockerComposeInteraction($basket);
 
+        $phpServer = $this->doYouWantToInstallWhichPHPServer($basket, $dockerComposeInteraction);
+
+        $dockerComposeInteraction->setPHPServer($phpServer);
+
         $basket->getOutput()->write('Services: [' . implode(', ', $dockerComposeInteraction->getAvailableServices()) . ']');
         $basket->getOutput()->write('Choose the services you want to include in the installation:');
         $basket->getOutput()->output();
@@ -98,7 +102,36 @@ class InstallCommand implements CommandInterface
         return true;
     }
 
-    protected function doYouWantToInstallTheDefaultServices(Basket $basket, DockerComposeInteraction $dockerComposeInteraction)
+    /**
+     * Ask which server the user wants to install.
+     * 
+     * @param Basket $basket
+     * @param DockerComposeInteraction $dockerComposeInteraction
+     * @return string
+     */
+    protected function doYouWantToInstallWhichPHPServer(Basket $basket, DockerComposeInteraction $dockerComposeInteraction): string
+    {
+        $basket->getOutput()->write('PHP servers: [' . implode(', ', $dockerComposeInteraction->getAvailablePHPServers()) . ']');
+        $basket->getOutput()->write('Do you want to install which PHP server:');
+        $basket->getOutput()->output();
+        $phpServer = $basket->getInput()->readInput();
+
+        if (! in_array($phpServer, $dockerComposeInteraction->getAvailablePHPServers())) {
+
+            return $this->doYouWantToInstallWhichPHPServer($basket, $dockerComposeInteraction);
+        }
+
+        return $phpServer;
+    }
+
+    /**
+     * Ask if the user wants to install the default services.
+     *
+     * @param Basket $basket
+     * @param DockerComposeInteraction $dockerComposeInteraction
+     * @return string
+     */
+    protected function doYouWantToInstallTheDefaultServices(Basket $basket, DockerComposeInteraction $dockerComposeInteraction): string
     {
         $basket->getOutput()->write('Default services: [' . implode(', ', $dockerComposeInteraction->getDefaultServices()) . ']');
         $basket->getOutput()->write('Do you want to install the default services: (y/n)');

@@ -3,6 +3,7 @@
 namespace YSOCode\Peach\Interactions;
 
 use YSOCode\Peach\Basket;
+use Symfony\Component\Yaml\Yaml;
 
 class DockerComposeInteraction
 {
@@ -12,6 +13,23 @@ class DockerComposeInteraction
      * @var Basket
      */
     protected Basket $basket;
+
+    /**
+     * The available PHP servers.
+     *
+     * @var array<int, string>
+     */
+    protected array $availablePHPServers = [
+        'apache',
+        'frankenphp'
+    ];
+
+    /**
+     * The PHP server.
+     *
+     * @var string
+     */
+    protected string $phpServer = 'apache';
 
     /**
      * The available services that may be installed.
@@ -51,6 +69,48 @@ class DockerComposeInteraction
     }
 
     /**
+     * Get the available PHP servers.
+     *
+     * @return array<int, string>
+     */
+    public function getAvailablePHPServers(): array
+    {
+        return $this->availablePHPServers;
+    }
+
+    /**
+     * Set the PHP server.
+     *
+     * @return bool
+     */
+    public function setPHPServer(string $phpServer): bool
+    {
+        if (! in_array($phpServer, $this->getAvailablePHPServers())) {
+
+            $this->basket->getOutput()
+                ->writeOutputError(
+                    "The PHP server '{$phpServer}' is not available. Available PHP servers: [" . implode(', ', $this->getAvailablePHPServers()) . ']'
+                );
+
+            return false;
+        }
+
+        $this->phpServer = $phpServer;
+
+        return true;
+    }
+
+    /**
+     * Get the PHP server.
+     *
+     * @return string
+     */
+    public function getPHPServer(): string
+    {
+        return $this->phpServer;
+    }
+
+    /**
      * Get the available services.
      *
      * @return array<int, string>
@@ -81,8 +141,8 @@ class DockerComposeInteraction
         $composePath = $this->basket->getBasePath('/docker-compose.yml');
 
         $compose = file_exists($composePath)
-            ? yaml_parse_file($composePath)
-            : yaml_parse(file_get_contents(dirname(__FILE__, 3) . '/stubs/docker-compose.stub'));
+            ? Yaml::parseFile($composePath)
+            : Yaml::parse(file_get_contents(dirname(__FILE__, 3) . '/stubs/' . $this->getPHPServer() . '.stub'));
 
         // Adds the new services as dependencies of the ysocode.test service...
         if (!array_key_exists('ysocode.test', $compose['services'])) {
@@ -98,7 +158,7 @@ class DockerComposeInteraction
         // Add the services to the docker-compose.yml...
         foreach ($services as $service) {
             if (!array_key_exists($service, $compose['services'] ?? [])) {
-                $yamlData = yaml_parse_file(dirname(__FILE__, 3) . "/stubs/{$service}.stub");
+                $yamlData = Yaml::parseFile(dirname(__FILE__, 3) . "/stubs/{$service}.stub");
                 $compose['services'][$service] = $yamlData[$service];
             }
         }
@@ -122,17 +182,6 @@ class DockerComposeInteraction
             $compose['services']['selenium']['image'] = 'seleniarm/standalone-chromium';
         }
 
-        $yaml = yaml_emit($compose, YAML_UTF8_ENCODING);
-
-        $lines = preg_split("/\r\n|\n|\r/", $yaml);
-        $filteredLines = array_filter($lines, function ($line) {
-
-            $YAMLIndicators = "/^\s*---.*$|^\s*\.\.\..*$/";
-            return !preg_match($YAMLIndicators, $line);
-        });
-
-        $yamlWithoutIndicators = implode("\n", $filteredLines);
-
-        file_put_contents($this->basket->getBasePath('/docker-compose.yml'), $yamlWithoutIndicators);
+        file_put_contents($this->basket->getBasePath('/docker-compose.yml'), Yaml::dump($compose, Yaml::DUMP_OBJECT_AS_MAP));
     }
 }

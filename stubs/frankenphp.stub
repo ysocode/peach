@@ -1,0 +1,32 @@
+services:
+    ysocode.test:
+        build:
+            context: ./vendor/ysocode/peach/runtimes/frankenphp/8.3
+            dockerfile: Dockerfile
+            args:
+                WWWGROUP: '${WWWGROUP}'
+        image: peach-8.3/frankenphp
+        extra_hosts:
+            - 'host.docker.internal:host-gateway'
+        ports:
+            - '80:80'
+            - '443:443'
+            - '443:443/udp'
+        environment:
+            WWWUSER: '${WWWUSER}'
+            XDEBUG_MODE: '${PEACH_XDEBUG_MODE:-off}'
+            XDEBUG_CONFIG: '${PEACH_XDEBUG_CONFIG:-client_host=host.docker.internal}'
+            FRANKENPHP_CONFIG: '${FRANKENPHP_CONFIG}'
+        volumes:
+            - './:/app/public'
+            - 'caddy_data:/data'
+            - 'caddy_config:/config'
+        tty: true
+
+volumes:
+    caddy_data:
+    caddy_config:
+
+networks:
+    peach:
+        driver: bridge
