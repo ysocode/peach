@@ -6,8 +6,6 @@ ARG WWWGROUP
 ARG NODE_VERSION=20
 ARG POSTGRES_VERSION=15
 
-WORKDIR /app/public
-
 RUN apt-get update \
     && apt-get install -y gnupg gosu zip unzip git dnsutils fswatch
 
@@ -40,6 +38,6 @@ COPY php.ini /etc/php/8.3/cli/conf.d/99-peach.ini
 
 RUN chmod +x /usr/local/bin/start-container
 
-EXPOSE 80
-
 ENTRYPOINT ["start-container"]
+
+CMD ["--config", "/etc/caddy/Caddyfile", "--adapter", "caddyfile"]
