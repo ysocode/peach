@@ -57,7 +57,7 @@ class InstallCommand implements CommandInterface
 
         $dockerComposeInteraction->setPHPServer($phpServer);
 
-        $basket->getOutput()->write('Services: [' . implode(', ', $dockerComposeInteraction->getAvailableServices()) . ']');
+        $basket->getOutput()->write(PHP_EOL . 'Services: [' . implode(', ', $dockerComposeInteraction->getAvailableServices()) . ']');
         $basket->getOutput()->write('Choose the services you want to include in the installation:');
         $basket->getOutput()->output();
         
@@ -111,7 +111,7 @@ class InstallCommand implements CommandInterface
      */
     protected function doYouWantToInstallWhichPHPServer(Basket $basket, DockerComposeInteraction $dockerComposeInteraction): string
     {
-        $basket->getOutput()->write('PHP servers: [' . implode(', ', $dockerComposeInteraction->getAvailablePHPServers()) . ']');
+        $basket->getOutput()->write(PHP_EOL . 'PHP servers: [' . implode(', ', $dockerComposeInteraction->getAvailablePHPServers()) . ']');
         $basket->getOutput()->write('Do you want to install which PHP server:');
         $basket->getOutput()->output();
         $phpServer = $basket->getInput()->readInput();

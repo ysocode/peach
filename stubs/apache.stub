@@ -9,7 +9,7 @@ services:
         extra_hosts:
             - 'host.docker.internal:host-gateway'
         ports:
-            - '80:80'
+            - 80:80
         environment:
             WWWUSER: '${WWWUSER}'
             XDEBUG_MODE: '${PEACH_XDEBUG_MODE:-off}'

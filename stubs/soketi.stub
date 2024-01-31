@@ -2,7 +2,7 @@ soketi:
     image: 'quay.io/soketi/soketi:latest-16-alpine'
     environment:
         SOKETI_DEBUG: '${SOKETI_DEBUG:-1}'
-        SOKETI_METRICS_SERVER_PORT: '9601'
+        SOKETI_METRICS_SERVER_PORT: 9601
         SOKETI_DEFAULT_APP_ID: '${PUSHER_APP_ID}'
         SOKETI_DEFAULT_APP_KEY: '${PUSHER_APP_KEY}'
         SOKETI_DEFAULT_APP_SECRET: '${PUSHER_APP_SECRET}'
