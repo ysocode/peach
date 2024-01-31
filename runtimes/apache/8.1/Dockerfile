@@ -6,6 +6,9 @@ ARG WWWGROUP
 ARG NODE_VERSION=20
 ARG POSTGRES_VERSION=15
 
+RUN a2enmod rewrite
+RUN a2enmod actions
+
 RUN apt-get update \
     && apt-get install -y gnupg gosu zip unzip git dnsutils fswatch
 
