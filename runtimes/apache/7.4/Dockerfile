@@ -17,7 +17,8 @@ RUN curl -sSLf -o /usr/local/bin/install-php-extensions https://github.com/mloca
 RUN curl -fsSL "https://deb.nodesource.com/setup_$NODE_VERSION.x" | bash - \
     && apt-get update \
     && apt-get install -y nodejs \
-    && npm install -g yarn
+    && npm install -g yarn \
+    && npm install -g gulp-cli
 
 RUN apt-get update \
     && apt-get install -y postgresql-client-$POSTGRES_VERSION
