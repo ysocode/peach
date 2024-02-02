@@ -35,7 +35,7 @@ Por padrão, os comandos do Peach são invocados usando o script **vendor/bin/pe
 
 Entretanto, em vez de digitar repetidamente vendor/bin/peach para executar comandos do Peach, você pode desejar configurar um alias de shell que permita executar os comandos do Peach de forma mais fácil:
 ```shell
-alias peach="[ -f peach ] && sh peach || sh vendor/bin/peach'
+alias peach="[ -f peach ] && sh peach || sh vendor/bin/peach"
 ```
 
 ##### Iniciando e Parando o Peach:
