@@ -1,73 +1,90 @@
-## Introdução
+# Peach - Simplify your local development with Docker
 
-Peach proporciona uma experiência de desenvolvimento local baseada em Docker. Nenhum software ou biblioteca precisa ser instalado localmente antes de utilizar o Peach. A CLI simples do Peach permite que você comece a construir seu aplicativo sem qualquer experiência anterior com o Docker.
+[![Latest Version on Packagist](https://img.shields.io/packagist/v/ysocode/peach.svg?style=flat)](https://packagist.org/packages/ysocode/peach)
+[![Downloads on Packagist](https://img.shields.io/packagist/dt/ysocode/peach.svg?style=flat)](https://packagist.org/packages/ysocode/peach)
 
-#### Inspiração
+## Introduction
 
-Peach é inspirado e derivado do Sail, criado por Taylor Otwell. Para mais informações, confira o repositório do [Sail](https://github.com/laravel/sail).
+Peach provides a local development experience based on Docker. No software or library needs to be installed locally
+before using Peach. Peach's simple CLI allows you to start building your application without any previous experience
+with Docker.
 
-## Documentação Oficial
+#### Inspiration
 
-##### Instale o Peach utilizando o Composer:
+Peach is inspired by and derived from Sail, created by Taylor Otwell. For more information, check out
+the [Sail repository](https://github.com/laravel/sail).
+
+## Official Documentation
+
+##### Install Peach using Composer:
 
 ```shell
 composer require ysocode/peach --dev
 ```
 
-##### Configure os serviços para o Peach usando o Gerenciador Basket:
+##### Configure the services for Peach using the Basket Manager:
 
 ```shell
 ./vendor/bin/basket peach:install
 ```
 
-##### Modifique os serviços existente do Peach usando o Gerenciador Basket:
+##### Modify existing Peach services using the Basket Manager:
 
 ```shell
 ./vendor/bin/basket peach:add
 ```
 
-##### Configurando um Alias de Shell:
+##### Setting up a Shell Alias:
 
-Por padrão, os comandos do Peach são invocados usando o script **vendor/bin/peach**
+By default, Peach commands are invoked using the script **vendor/bin/peach**:
+
 ```shell
 ./vendor/bin/peach up
 ```
 
-Entretanto, em vez de digitar repetidamente vendor/bin/peach para executar comandos do Peach, você pode desejar configurar um alias de shell que permita executar os comandos do Peach de forma mais fácil:
+However, instead of typing `vendor/bin/peach` repeatedly to run Peach commands, you may want to set up a shell alias to
+make running Peach commands easier:
+
 ```shell
 alias peach="[ -f peach ] && sh peach || sh vendor/bin/peach"
 ```
 
-##### Iniciando e Parando o Peach:
+##### Starting and Stopping Peach:
 
-Antes de iniciar o Peach, certifique-se de que nenhum outro servidor web ou banco de dados esteja em execução em seu computador local. Para iniciar todos os contêineres Docker definidos no arquivo docker-compose.yml da sua aplicação, execute o comando up:
+Before starting Peach, make sure no other web server or database is running on your local machine. To start all Docker
+containers defined in your application's `docker-compose.yml` file, run the `up` command:
+
 ```shell
 peach up
 ```
 
-Para iniciar todos os contêineres Docker em segundo plano, você pode iniciar o Peach no modo "detached":
+To start all Docker containers in the background, you can start Peach in "detached" mode:
+
 ```shell
 peach up -d
 ```
 
-Depois que os contêineres da aplicação forem iniciados, você poderá acessar o projeto em seu navegador da web pelo endereço: http://localhost.
+Once the application's containers are up, you can access the project in your web browser at: http://localhost.
 
+To stop all containers, you can press Control + C to interrupt the container's execution. If the containers are running
+in the background, you can use the **stop** command:
 
-Para parar todos os contêineres, você pode pressionar Control + C para interromper a execução do contêiner. Se os contêineres estiverem em execução em segundo plano, você pode usar o comando **stop**:
 ```shell
 peach stop
 ```
 
-Para voltar a executar os contêineres você pode usar o comando **start**:
+To restart the containers, you can use the **start** command:
+
 ```shell
 peach start
 ```
 
-Para parar e remover todos os contêineres você pode usar o comando **down**:
+To stop and remove all containers, you can use the **down** command:
+
 ```shell
 peach down
 ```
 
-## Licença
+## License
 
-Peach is open-sourced software licensed under the [MIT license](LICENSE.md).
+Peach is open-sourced software licensed under the [MIT license](LICENSE.md). 
