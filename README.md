@@ -2,6 +2,7 @@
 
 [![Latest Version on Packagist](https://img.shields.io/packagist/v/ysocode/peach.svg?style=flat)](https://packagist.org/packages/ysocode/peach)
 [![Downloads on Packagist](https://img.shields.io/packagist/dt/ysocode/peach.svg?style=flat)](https://packagist.org/packages/ysocode/peach)
+[![License](https://img.shields.io/packagist/l/ysocode/peach)](https://packagist.org/packages/ysocode/peach)
 
 ## Introduction
 
