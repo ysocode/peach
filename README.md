@@ -1,4 +1,4 @@
-# Peach - Simplify your local development with Docker
+# Peach - Simplify Your Local Development With Docker
 
 [![Latest Version on Packagist](https://img.shields.io/packagist/v/ysocode/peach.svg?style=flat)](https://packagist.org/packages/ysocode/peach)
 [![Downloads on Packagist](https://img.shields.io/packagist/dt/ysocode/peach.svg?style=flat)](https://packagist.org/packages/ysocode/peach)
@@ -89,3 +89,4 @@ peach down
 ## License
 
 Peach is open-sourced software licensed under the [MIT license](LICENSE.md). 
+
